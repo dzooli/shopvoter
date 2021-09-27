@@ -12,9 +12,11 @@ parasails.registerPage("welcome", {
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
   beforeMount: function () {
-    //…
+    _.extend(this, window.SAILS_LOCALS);
   },
-  mounted: async function () {},
+  mounted: async function () {
+    console.log(window.SAILS_LOCALS);
+  },
 
   //  ╦  ╦╦╦═╗╔╦╗╦ ╦╔═╗╦    ╔═╗╔═╗╔═╗╔═╗╔═╗
   //  ╚╗╔╝║╠╦╝ ║ ║ ║╠═╣║    ╠═╝╠═╣║ ╦║╣ ╚═╗
@@ -30,6 +32,7 @@ parasails.registerPage("welcome", {
         break;
       case "started":
         this.started = true;
+        this.closeExampleModal();
         break;
       default:
         this.modal = "";
@@ -49,7 +52,7 @@ parasails.registerPage("welcome", {
     },
 
     closeExampleModal: async function () {
-      this.goto("/welcome");
+      this.goto("/welcome/?started=1");
       // Or, without deep links, instead do:
       // ```
       // this.modal = '';

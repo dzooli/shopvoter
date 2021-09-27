@@ -8,12 +8,11 @@
       and hopefully creating better service time to time.
     </p>
     <p>Feel free to give us feedback with one simple click below because <strong>your opinion counts.</strong></p>
-    <div class="jumbotron mt-2">
-      <tagging-view timeout=3></tagging-view>
-    </div>
-    <div id="debug">
-    <%= JSON.stringify(req.query.start) %>
-    </div>
+    <% if (req.query.started==1) { %>
+      <div class="jumbotron mt-2">
+        <tagging-view timeout=3></tagging-view>
+      </div>
+    <% } %>
   </div>
 
   <router-view></router-view>

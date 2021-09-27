@@ -27,8 +27,7 @@ module.exports = {
   fn: async function (inputs) {
     if (this.req.me) {
       this.res.locals.appRunning = true;
-      console.log(this.res.locals.appRunning);
-      throw { redirect: "/welcome/started?start=1" };
+      throw { redirect: "/welcome/started" };
     }
     throw "notLoggedIn";
   },
