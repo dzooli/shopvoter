@@ -9,9 +9,9 @@
     </p>
     <p>Feel free to give us feedback with one simple click below because <strong>your opinion counts.</strong></p>
     <% if (req.query.started==1) { %>
-      <div class="jumbotron mt-2">
-        <tagging-view timeout=3></tagging-view>
-      </div>
+    <div class="jumbotron mt-2">
+      <tagging-view timeout=3></tagging-view>
+    </div>
     <% } %>
   </div>
 
@@ -29,7 +29,7 @@
     <div class="modal-body">
       <h5 class="pb-2 mb-3 border-bottom">Welcome back <%= me.fullName %>!</h5>
       <p>If you just started your day, you can change the shop where you are. After starting the voting, you can't select another shop
-      without device reboot and re-login.</p>
+        without device reboot and re-login.</p>
     </div>
     <div class="modal-footer flex-row-reverse justify-content-between">
       <button type="button" data-dismiss="modal" class="btn btn-warning btn-lg" @click="this.location='/dashboard/start'">Start And Lock</button>
