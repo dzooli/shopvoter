@@ -1,0 +1,1369 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Swagger Json",
+    "description": "This is a generated swagger json for your sails project",
+    "termsOfService": "http://example.com/terms",
+    "contact": {
+      "name": "Theophilus Omoregbee",
+      "url": "http://github.com/theo4u",
+      "email": "theo4u@ymail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:1337/"
+    }
+  ],
+  "externalDocs": {
+    "url": "https://theoomoregbee.github.io/"
+  },
+  "tags": [
+    {
+      "name": "View faq"
+    },
+    {
+      "name": "View contact"
+    },
+    {
+      "name": "View signup"
+    },
+    {
+      "name": "View login"
+    },
+    {
+      "name": "View account overview"
+    },
+    {
+      "name": "View terms"
+    },
+    {
+      "name": "View privacy"
+    },
+    {
+      "name": "Confirm email"
+    },
+    {
+      "name": "View confirmed email"
+    },
+    {
+      "name": "View forgot password"
+    },
+    {
+      "name": "View new password"
+    },
+    {
+      "name": "View edit password"
+    },
+    {
+      "name": "View edit profile"
+    },
+    {
+      "name": "Deliver contact form message"
+    },
+    {
+      "name": "Observe my session"
+    },
+    {
+      "name": "Update password"
+    },
+    {
+      "name": "Update profile"
+    },
+    {
+      "name": "Update billing card"
+    },
+    {
+      "name": "Login"
+    },
+    {
+      "name": "Signup"
+    },
+    {
+      "name": "Send password recovery email"
+    },
+    {
+      "name": "Update password and login"
+    },
+    {
+      "name": "Logout"
+    },
+    {
+      "name": "View welcome page"
+    },
+    {
+      "name": "View homepage or redirect"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/user-without-required-constraint"
+          },
+          {
+            "required": [
+              "emailAddress",
+              "password",
+              "fullName"
+            ]
+          }
+        ]
+      },
+      "user-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **User**",
+        "properties": {
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "emailAddress": {
+            "type": "string",
+            "format": "email",
+            "example": "mary.sue@example.com",
+            "maxLength": 200,
+            "uniqueItems": true
+          },
+          "emailStatus": {
+            "type": "string",
+            "default": "confirmed",
+            "description": "The confirmation status of the user's email address.",
+            "enum": [
+              "unconfirmed",
+              "change-requested",
+              "confirmed"
+            ],
+            "example": "confirmed"
+          },
+          "emailChangeCandidate": {
+            "type": "string",
+            "format": "email",
+            "description": "A still-unconfirmed email address that this user wants to change to (if relevant)."
+          },
+          "password": {
+            "type": "string",
+            "description": "Securely hashed representation of the user's login password.",
+            "example": "2$28a8eabna301089103-13948134nad"
+          },
+          "fullName": {
+            "type": "string",
+            "description": "Full representation of the user's name.",
+            "example": "Mary Sue van der McHenst",
+            "maxLength": 120
+          },
+          "isSuperAdmin": {
+            "type": "boolean",
+            "description": "Whether this user is a \"super admin\" with extra permissions, etc."
+          },
+          "passwordResetToken": {
+            "type": "string",
+            "description": "A unique token used to verify the user's identity when recovering a password.  Expires after 1 use, or after a set amount of time has elapsed."
+          },
+          "passwordResetTokenExpiresAt": {
+            "type": "number",
+            "format": "double",
+            "description": "A JS timestamp (epoch ms) representing the moment when this user's `passwordResetToken` will expire (or 0 if the user currently has no such token).",
+            "example": 1502844074211
+          },
+          "emailProofToken": {
+            "type": "string",
+            "description": "A pseudorandom, probabilistically-unique token for use in our account verification emails."
+          },
+          "emailProofTokenExpiresAt": {
+            "type": "number",
+            "format": "double",
+            "description": "A JS timestamp (epoch ms) representing the moment when this user's `emailProofToken` will expire (or 0 if the user currently has no such token).",
+            "example": 1502844074211
+          },
+          "stripeCustomerId": {
+            "type": "string",
+            "description": "The id of the customer entry in Stripe associated with this user (or empty string if this user is not linked to a Stripe customer -- e.g. if billing features are not enabled)."
+          },
+          "hasBillingCard": {
+            "type": "boolean",
+            "description": "Whether this user has a default billing card hooked up as their payment method."
+          },
+          "billingCardBrand": {
+            "type": "string",
+            "description": "The brand of this user's default billing card (or empty string if no billing card is set up).",
+            "example": "Visa"
+          },
+          "billingCardLast4": {
+            "type": "string",
+            "description": "The last four digits of the card number for this user's default billing card (or empty string if no billing card is set up).",
+            "example": "4242"
+          },
+          "billingCardExpMonth": {
+            "type": "string",
+            "description": "The two-digit expiration month from this user's default billing card, formatted as MM (or empty string if no billing card is set up).",
+            "example": "08"
+          },
+          "billingCardExpYear": {
+            "type": "string",
+            "description": "The four-digit expiration year from this user's default billing card, formatted as YYYY (or empty string if no credit card is set up).",
+            "example": "2023"
+          },
+          "tosAcceptedByIp": {
+            "type": "string",
+            "description": "The IP (ipv4) address of the request that accepted the terms of service.",
+            "externalDocs": "https://en.wikipedia.org/wiki/Know_your_customer"
+          },
+          "lastSeenAt": {
+            "type": "number",
+            "format": "double",
+            "description": "A JS timestamp (epoch ms) representing the moment at which this user most recently interacted with the backend while logged in (or 0 if they have not interacted with the backend at all yet).",
+            "example": 1502844074211
+          }
+        }
+      }
+    },
+    "parameters": {
+      "AttributeFilterParam": {
+        "in": "query",
+        "name": "_*_",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "To filter results based on a particular attribute, specify a query parameter with the same name as the attribute defined on your model. For instance, if our `Purchase` model has an `amount` attribute, we could send `GET /purchase?amount=99.99` to return a list of $99.99 purchases."
+      },
+      "WhereQueryParam": {
+        "in": "query",
+        "name": "where",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Instead of filtering based on a specific attribute, you may instead choose to provide a `where` parameter with the WHERE piece of a [Waterline criteria](https://sailsjs.com/documentation/concepts/models-and-orm/query-language), _encoded as a JSON string_. This allows you to take advantage of `contains`, `startsWith`, and other sub-attribute criteria modifiers for more powerful `find()` queries.\n\ne.g. `?where={\"name\":{\"contains\":\"theodore\"}}`"
+      },
+      "LimitQueryParam": {
+        "in": "query",
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "The maximum number of records to send back (useful for pagination). Defaults to 30."
+      },
+      "SkipQueryParam": {
+        "in": "query",
+        "name": "skip",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "The number of records to skip (useful for pagination)."
+      },
+      "SortQueryParam": {
+        "in": "query",
+        "name": "sort",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The sort order. By default, returned records are sorted by primary key value in ascending order.\n\ne.g. `?sort=lastName%20ASC`"
+      }
+    }
+  },
+  "paths": {
+    "/faq": {
+      "get": {
+        "summary": "View faq",
+        "description": "Display \"FAQ\" page.",
+        "tags": [
+          "View faq"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/contact": {
+      "get": {
+        "summary": "View contact",
+        "description": "Display \"Contact\" page.",
+        "tags": [
+          "View contact"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "get": {
+        "summary": "View signup",
+        "description": "Display \"Signup\" page.",
+        "tags": [
+          "View signup"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Success"
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user is already logged in."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "summary": "View login",
+        "description": "Display \"Login\" page.",
+        "tags": [
+          "View login"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Success"
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user is already logged in."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/account": {
+      "get": {
+        "summary": "View account overview",
+        "description": "Display \"Account Overview\" page.",
+        "tags": [
+          "View account overview"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/legal/terms": {
+      "get": {
+        "summary": "View terms",
+        "description": "Display \"Legal terms\" page.",
+        "tags": [
+          "View terms"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/legal/privacy": {
+      "get": {
+        "summary": "View privacy",
+        "description": "Display \"Privacy policy\" page.",
+        "tags": [
+          "View privacy"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/email/confirm": {
+      "get": {
+        "summary": "Confirm email",
+        "description": "Confirm a new user's email address, or an existing user's request for an email address change,\nthen redirect to either a special landing page (for newly-signed up users), or the account page\n(for existing users who just changed their email address).",
+        "tags": [
+          "Confirm email"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "4-32fad81jdaf$329"
+            },
+            "description": "The confirmation token from the email."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Email address confirmed and requesting user logged in."
+                    },
+                    {
+                      "type": "string",
+                      "description": "Email address confirmed and requesting user logged in.  Since this looks like a browser, redirecting..."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The provided token is expired, invalid, or already used up."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "409": {
+            "description": "The email address is no longer available."
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/email/confirmed": {
+      "get": {
+        "summary": "View confirmed email",
+        "description": "Display \"Confirmed email\" page.",
+        "tags": [
+          "View confirmed email"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/password/forgot": {
+      "get": {
+        "summary": "View forgot password",
+        "description": "Display \"Forgot password\" page.",
+        "tags": [
+          "View forgot password"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Success"
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user is already logged in."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/password/new": {
+      "get": {
+        "summary": "View new password",
+        "description": "Display \"New password\" page.",
+        "tags": [
+          "View new password"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "4-32fad81jdaf$329"
+            },
+            "description": "The password reset token from the email."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Success"
+                    },
+                    {
+                      "type": "string",
+                      "description": "The provided token is expired, invalid, or has already been used."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/account/password": {
+      "get": {
+        "summary": "View edit password",
+        "description": "Display \"Edit password\" page.",
+        "tags": [
+          "View edit password"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/account/profile": {
+      "get": {
+        "summary": "View edit profile",
+        "description": "Display \"Edit profile\" page.",
+        "tags": [
+          "View edit profile"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/deliver-contact-form-message": {
+      "post": {
+        "summary": "Deliver contact form message",
+        "description": "Deliver a contact form message to the appropriate internal channel(s).",
+        "tags": [
+          "Deliver contact form message"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailAddress",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "hermione@hogwarts.edu"
+            },
+            "description": "A return email address where we can respond."
+          },
+          {
+            "in": "query",
+            "name": "topic",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "I want to buy stuff."
+            },
+            "description": "The topic from the contact form."
+          },
+          {
+            "in": "query",
+            "name": "fullName",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Hermione Granger"
+            },
+            "description": "The full name of the human sending this message."
+          },
+          {
+            "in": "query",
+            "name": "message",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The custom message, in plain text."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The message was sent successfully."
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/observe-my-session": {
+      "post": {
+        "summary": "Observe my session",
+        "description": "Subscribe to the logged-in user's session so that you receive socket broadcasts when logged out in another tab.",
+        "tags": [
+          "Observe my session"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requesting socket is now subscribed to socket broadcasts about the logged-in user's session."
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/account/update-password": {
+      "put": {
+        "summary": "Update password",
+        "description": "Update the password for the logged-in user.",
+        "tags": [
+          "Update password"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "abc123v2"
+            },
+            "description": "The new, unencrypted password."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/account/update-profile": {
+      "put": {
+        "summary": "Update profile",
+        "description": "Update the profile for the logged-in user.",
+        "tags": [
+          "Update profile"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fullName",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "emailAddress",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "409": {
+            "description": "The provided email address is already in use."
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/account/update-billing-card": {
+      "put": {
+        "summary": "Update billing card",
+        "description": "Update the credit card for the logged-in user.",
+        "tags": [
+          "Update billing card"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stripeToken",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "tok_199k3qEXw14QdSnRwmsK99MH"
+            },
+            "description": "The single-use Stripe Checkout token identifier representing the user's payment source (i.e. credit card.)"
+          },
+          {
+            "in": "query",
+            "name": "billingCardLast4",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "4242"
+            },
+            "description": "Omit if removing card info."
+          },
+          {
+            "in": "query",
+            "name": "billingCardBrand",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "visa"
+            },
+            "description": "Omit if removing card info."
+          },
+          {
+            "in": "query",
+            "name": "billingCardExpMonth",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "08"
+            },
+            "description": "Omit if removing card info."
+          },
+          {
+            "in": "query",
+            "name": "billingCardExpYear",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2023"
+            },
+            "description": "Omit if removing card info."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/entrance/login": {
+      "put": {
+        "summary": "Login",
+        "description": "Log in using the provided email and password combination.",
+        "tags": [
+          "Login"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailAddress",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The email to try in this attempt, e.g. \"irl@example.com\"."
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unencrypted password to try in this attempt, e.g. \"passwordlol\"."
+          },
+          {
+            "in": "query",
+            "name": "rememberMe",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Whether to extend the lifetime of the user's session."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent has been successfully logged in."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The form provided email and password combination does not\n      match any user in the database."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/entrance/signup": {
+      "post": {
+        "summary": "Signup",
+        "description": "Sign up for a new user account.",
+        "tags": [
+          "Signup"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailAddress",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "description": "The email address for the new account, e.g. m@example.com."
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "passwordlol",
+              "maxLength": 200
+            },
+            "description": "The unencrypted password to use for the new account."
+          },
+          {
+            "in": "query",
+            "name": "fullName",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Frida Kahlo de Rivera"
+            },
+            "description": "The user's full name."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "New user account was created successfully."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The provided fullName, password and/or email address are invalid."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "409": {
+            "description": "The provided email address is already in use."
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/entrance/send-password-recovery-email": {
+      "post": {
+        "summary": "Send password recovery email",
+        "description": "Send a password recovery notification to the user with the specified email address.",
+        "tags": [
+          "Send password recovery email"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "emailAddress",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "rydahl@example.com"
+            },
+            "description": "The email address of the alleged user who wants to recover their password."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The email address might have matched a user in the database.  (If so, a recovery email was sent.)"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/entrance/update-password-and-login": {
+      "post": {
+        "summary": "Update password and login",
+        "description": "Finish the password recovery flow by setting the new password and logging in the requesting user, based on the authenticity of their token.",
+        "tags": [
+          "Update password and login"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "abc123v2"
+            },
+            "description": "The new, unencrypted password."
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "gwa8gs8hgw9h2g9hg29hgwh9asdgh9q34$$$$$asdgasdggds"
+            },
+            "description": "The password token that was generated by the `sendPasswordRecoveryEmail` endpoint."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Password successfully updated, and requesting user agent is now logged in."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The provided password token is invalid, expired, or has already been used."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/account/logout": {
+      "get": {
+        "summary": "Logout",
+        "description": "Log out of this app.",
+        "tags": [
+          "Logout"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent has been successfully logged out."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent looks to be a web browser."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Logout",
+        "description": "Log out of this app.",
+        "tags": [
+          "Logout"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent has been successfully logged out."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent looks to be a web browser."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Logout",
+        "description": "Log out of this app.",
+        "tags": [
+          "Logout"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent has been successfully logged out."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent looks to be a web browser."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Logout",
+        "description": "Log out of this app.",
+        "tags": [
+          "Logout"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent has been successfully logged out."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent looks to be a web browser."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Logout",
+        "description": "Log out of this app.",
+        "tags": [
+          "Logout"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent has been successfully logged out."
+                    },
+                    {
+                      "type": "string",
+                      "description": "The requesting user agent looks to be a web browser."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/welcome/{unused}": {
+      "get": {
+        "summary": "View welcome page",
+        "description": "Display the dashboard \"Welcome\" page.",
+        "tags": [
+          "View welcome page"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "unused",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `unused`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Display the welcome page for authenticated users."
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "View homepage or redirect",
+        "description": "Display or redirect to the appropriate homepage, depending on login status.",
+        "tags": [
+          "View homepage or redirect"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "Requesting user is a guest, so show the public landing page."
+                    },
+                    {
+                      "type": "string",
+                      "description": "Requesting user is logged in, so redirect to the internal welcome page."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

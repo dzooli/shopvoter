@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  api:
+    image: sails-cli:1.4.2 # same as with docker cli
+    # Run npm install before starting sails to keep our dependencies installed and updated
+    command: sh -c "npm install && npm run debug"
+    working_dir: /app # same as -w with docker cli
+    ports: # same as -p with docker cli
+      - "1337:1337"
+      - "9229:9229"
+    volumes: # same as -v with docker cli
+      - .:/app
+    env_file:
+      - ./sails.env
+
+  mongodb:
+    # DB_URL=mongodb://root:@mongodb:27017/sails
+    image: mongo:4.4 # as of this writing, the latest version is 4.4.3
+    volumes:
+      - ./mongo:/data/mongodb
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql/data:/var/lib/mysql
+      - ./data/mysql/initdb:/docker-entrypoint-initdb.d
+      - ./data/mysql/config:/etc/mysql/conf.d
+    env_file:
+      - .env.mysql

@@ -1,0 +1,34 @@
+<div id="shopselect" v-cloak>
+  <div class="container pt-5 pb-5">
+
+    <h1><%= me.fullName %>'s Shops @ <%= company.name %></h1>
+
+    <% for (const shop of shops) { %>
+      <% if (shop.id % 3 == 0) { %>
+        <div class="card-deck pt-3 flex-row" style="text-align: center;">     
+      <% } %>
+        <% var url = "/api/account/select-shop/" + shop.shop.shop_id.id; %>
+          <div class="card" style="flex: auto;">
+            <div class="card-body">
+              <a href="<%= url %>">
+                <button class="btn btn-primary btn-lg" style="min-width: -webkit-fill-available;">
+                  <div class="card-title pt-2">
+                    <%= shop.shop.shop_id.name %>
+                  </div>
+                  <div class="card-subtitle">
+                    <%- shop.city.name %>
+                  </div>
+                  <div class="card-subtitle pt-2" style="font-size: 80%;">
+                    <%- shop.shop.shop_id.address1 ? shop.shop.shop_id.address1 : "&nbsp;" %>
+                  </div>
+                </button>
+              </a>
+            </div>
+          </div>
+      <% if (shop.id % 3 == 2) { %>
+        </div>
+      <% } %>
+    <% } %>
+    </div>
+  </div>
+</div>
