@@ -8,11 +8,7 @@
       and hopefully creating better service time to time.
     </p>
     <p>Feel free to give us feedback with one simple click below because <strong>your opinion counts.</strong></p>
-    <% if (req.query.started==1) { %>
-    <div class="jumbotron mt-2">
-      <tagging-view timeout=3></tagging-view>
-    </div>
-    <% } %>
+    <tagging-view timeout=3 v-if="started"></tagging-view>
   </div>
 
   <router-view></router-view>
@@ -20,7 +16,7 @@
   <!--  ╔═╗═╗ ╦╔═╗╔╦╗╔═╗╦  ╔═╗  ┌┬┐┌─┐┌┬┐┌─┐┬
         ║╣ ╔╩╦╝╠═╣║║║╠═╝║  ║╣   ││││ │ ││├─┤│
         ╚═╝╩ ╚═╩ ╩╩ ╩╩  ╩═╝╚═╝  ┴ ┴└─┘─┴┘┴ ┴┴─┘  -->
-  <modal class="example-modal" hide-close-button=1 v-if="modal==='example'" @close="closeExampleModal()" v-cloak>
+  <modal class="example-modal" hide-close-button=1 v-if="modal==='example' && started==false" @close="closeExampleModal()" v-cloak>
     <div class="modal-header">
       <h2 class="modal-title">'Change Shop' or 'Start&Lock'</h2>
       <p class="modal-intro">Start voting or select your actual shop first.</p>
@@ -32,7 +28,7 @@
         without device reboot and re-login.</p>
     </div>
     <div class="modal-footer flex-row-reverse justify-content-between">
-      <button type="button" data-dismiss="modal" class="btn btn-warning btn-lg" @click="this.location='/dashboard/start'">Start And Lock</button>
+      <button type="button" data-dismiss="modal" class="btn btn-warning btn-lg" v-on:click.prevent="startApplication">Start And Lock</button>
       <button type="button" data-dismiss="modal" class="btn btn-primary" @click="this.location='/dashboard/shopselect'">Change Settings</button>
     </div>
   </modal>

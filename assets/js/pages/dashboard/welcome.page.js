@@ -12,11 +12,9 @@ parasails.registerPage("welcome", {
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
   beforeMount: function () {
-    _.extend(this, window.SAILS_LOCALS);
+    _.extend({}, window.SAILS_LOCALS);
   },
-  mounted: async function () {
-    console.log(window.SAILS_LOCALS);
-  },
+  mounted: async function () {},
 
   //  ╦  ╦╦╦═╗╔╦╗╦ ╦╔═╗╦    ╔═╗╔═╗╔═╗╔═╗╔═╗
   //  ╚╗╔╝║╠╦╝ ║ ║ ║╠═╣║    ╠═╝╠═╣║ ╦║╣ ╚═╗
@@ -28,6 +26,7 @@ parasails.registerPage("welcome", {
     // corresponds with `:unused?` in the server-side route for this page.
     switch (virtualPageSlug) {
       case "hello":
+        this.started = false;
         this.modal = "example";
         break;
       case "started":
@@ -43,6 +42,10 @@ parasails.registerPage("welcome", {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
+    startApplication: async function() {
+      this.goto("/welcome/started");
+    },
+
     clickOpenExampleModalButton: async function () {
       this.goto("/welcome/hello");
       // Or, without deep links, instead do:
@@ -52,7 +55,8 @@ parasails.registerPage("welcome", {
     },
 
     closeExampleModal: async function () {
-      this.goto("/welcome/?started=1");
+      this.goto("/welcome");
+      //this.goto("/dashboard/start");
       // Or, without deep links, instead do:
       // ```
       // this.modal = '';

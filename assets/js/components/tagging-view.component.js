@@ -30,6 +30,7 @@ parasails.registerComponent("taggingView", {
   //  ╠═╣ ║ ║║║║
   //  ╩ ╩ ╩ ╩ ╩╩═╝
   template: `
+  <div class="jumbotron mt-2">
     <div class="row mb-5">
         <div style="flex: auto; text-align: center;">
             <span class="text-center" v-if="counter == 0" style="display: inline-block;">{{message}}</span>
@@ -43,6 +44,7 @@ parasails.registerComponent("taggingView", {
             <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">5</button>
         </div>
     </div>
+  </div>
     `,
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
