@@ -11,6 +11,9 @@
     <div class="jumbotron mt-2">
       <tagging-view timeout=3></tagging-view>
     </div>
+    <div id="debug">
+    <%= JSON.stringify(req.query.start) %>
+    </div>
   </div>
 
   <router-view></router-view>

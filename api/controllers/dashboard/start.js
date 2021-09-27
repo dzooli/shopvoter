@@ -14,7 +14,7 @@ module.exports = {
     redirect: {
       responseType: "redirect",
       description:
-        "Logged in user starts the application after optinal config changes.",
+        "Logged in user starts the application after optinal configuration changes.",
     },
 
     notLoggedIn: {
@@ -25,9 +25,10 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    sails.locals.started = true;
     if (this.req.me) {
-      throw { redirect: "/welcome/started" };
+      this.res.locals.appRunning = true;
+      console.log(this.res.locals.appRunning);
+      throw { redirect: "/welcome/started?start=1" };
     }
     throw "notLoggedIn";
   },
