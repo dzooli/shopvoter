@@ -8,6 +8,12 @@ parasails.registerPage("welcome", {
     pageLoadedAt: Date.now(),
   },
 
+  watch: {
+    started: async function (newStarted, oldStarted) {
+      await this.setMenuItemsVisibility(!newStarted);
+    },
+  },
+
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
@@ -42,7 +48,7 @@ parasails.registerPage("welcome", {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    startApplication: async function() {
+    startApplication: async function () {
       this.goto("/welcome/started");
     },
 
@@ -61,6 +67,20 @@ parasails.registerPage("welcome", {
       // ```
       // this.modal = '';
       // ```
+    },
+
+    setMenuItemsVisibility: async function (visible) {
+      var elements = document.querySelectorAll(".hide-on-start");
+      if (visible) {
+        elements.forEach((el) => {
+          el.style.display = "block";
+        });
+        return;
+      }
+
+      elements.forEach((el) => {
+        el.style.display = "none";
+      });
     },
   },
 });
