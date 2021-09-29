@@ -20,6 +20,7 @@
     "sails-hook-orm": "^3.0.2",
     "sails-hook-sockets": "^2.0.0",
     "sails-inverse-model": "^2.0.7",
+    "sails-mongo": "^2.0.0",
     "sails-mysql": "^1.0.3"
   },
   "devDependencies": {
