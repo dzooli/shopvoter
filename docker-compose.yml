@@ -7,23 +7,39 @@ services:
     command: sh -c "npm install && npm run debug"
     working_dir: /app # same as -w with docker cli
     ports: # same as -p with docker cli
-      - "1337:1337"
-      - "9229:9229"
+      - "127.0.0.1:1337:1337"
+      - "127.0.0.1:9229:9229"
     volumes: # same as -v with docker cli
       - .:/app
     env_file:
       - ./sails.env
+    depends_on:
+      - "mongodb"
+      - "mysql"
 
   mongodb:
-    # DB_URL=mongodb://root:@mongodb:27017/sails
+    # DB_URL=mongodb://root:test@mongodb:27017/tagger
     image: mongo:4.4 # as of this writing, the latest version is 4.4.3
+    env_file:
+      - ./mongo.env
     volumes:
-      - ./mongo:/data/mongodb
+      - ./data/mongodb/db:/data/db
+  
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFOG_MONGODB_ADMINPASSWORD: test
+      ME_CONFIG_MONGODB_URL: mongodb://root:test@mongodb:27017/
+    depends_on:
+      - "mongodb"
 
   mysql:
     image: mysql:latest
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     volumes:
       - ./data/mysql/data:/var/lib/mysql
       - ./data/mysql/initdb:/docker-entrypoint-initdb.d

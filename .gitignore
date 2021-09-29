@@ -133,5 +133,6 @@ lib-cov
 *.pid
 
 data/mysql/data
+data/mongodb/db
 sails-output
 www/
