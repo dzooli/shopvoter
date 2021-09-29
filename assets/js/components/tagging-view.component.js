@@ -18,6 +18,7 @@ parasails.registerComponent("taggingView", {
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: function () {
     return {
+      syncing: false,
       message: "",
       plural_secs: "s",
       counter: 0,
@@ -29,6 +30,7 @@ parasails.registerComponent("taggingView", {
   //  ╦ ╦╔╦╗╔╦╗╦
   //  ╠═╣ ║ ║║║║
   //  ╩ ╩ ╩ ╩ ╩╩═╝
+  // Original button: <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">1</button>
   template: `
   <div class="jumbotron mt-2">
     <div class="row mb-5">
@@ -37,11 +39,41 @@ parasails.registerComponent("taggingView", {
             <span class="text-center" v-if="counter != 0" style="display: inline-block;">Please wait {{counter}} second{{plural_secs}}.</span>
         </div>
         <div class="flex-row justify-content-between mb-0 pb-0 pt-4" style="display: flex; width: 100%; padding: 24px;">
-            <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">1</button>
-            <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">2</button>
-            <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">3</button>
-            <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">4</button>
-            <button class="btn btn-primary btn-lg" @click="sendOpinion" :disabled="buttonsDisabled ? true : false">5</button>
+          <ajax-button type="submit"
+          @click="sendOpinion"
+          :syncing="syncing"
+          :disabled="buttonsDisabled ? true: false"
+          class="btn btn-primary btn-lg">
+          1</ajax-button>
+
+          <ajax-button type="submit"
+          @click="sendOpinion"
+          :syncing="syncing"
+          :disabled="buttonsDisabled ? true: false"
+          class="btn btn-primary btn-lg">
+          2</ajax-button>
+
+          <ajax-button type="submit"
+          @click="sendOpinion"
+          :syncing="syncing"
+          :disabled="buttonsDisabled ? true: false"
+          class="btn btn-primary btn-lg">
+          3</ajax-button>
+
+          <ajax-button type="submit"
+          @click="sendOpinion"
+          :syncing="syncing"
+          :disabled="buttonsDisabled ? true: false"
+          class="btn btn-primary btn-lg">
+          4</ajax-button>
+
+          <ajax-button type="submit"
+          @click="sendOpinion"
+          :syncing="syncing"
+          :disabled="buttonsDisabled ? true: false"
+          class="btn btn-primary btn-lg">
+          5</ajax-button>
+
         </div>
     </div>
   </div>
@@ -76,12 +108,14 @@ parasails.registerComponent("taggingView", {
         if (this.counter == 0) {
           this.buttonsDisabled = false;
           this.plural_secs = "s";
+          this.syncing = false;
           clearInterval(this.timerId);
         }
       }, 1000);
     },
 
     sendOpinion: async function (ev) {
+      this.syncing = true;
       this.startCounter();
     },
   },
