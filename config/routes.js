@@ -15,7 +15,6 @@ module.exports.routes = {
   "GET /": { action: "view-homepage-or-redirect" },
   "GET /welcome/:unused?": { action: "dashboard/view-welcome" },
   "GET /dashboard/shopselect": { action: "dashboard/view-shopselect" },
-  "GET /dashboard/start": { action: "dashboard/start" },
 
   "GET /faq": { action: "view-faq" },
   "GET /legal/terms": { action: "legal/view-terms" },
@@ -51,6 +50,7 @@ module.exports.routes = {
   // Note that, in this app, these API endpoints may be accessed using the `Cloud.*()` methods
   // from the Parasails library, or by using those method names as the `action` in <ajax-form>.
   "/api/v1/account/logout": { action: "account/logout" },
+  "POST /api/v1/account/select-shop": { action: "account/select-shop" },
   "PUT   /api/v1/account/update-password": {
     action: "account/update-password",
   },
