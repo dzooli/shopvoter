@@ -21,6 +21,10 @@ module.exports = {
 
   fn: async function () {
     if (this.req.me) {
+      if (this.req.me.lastShopLogin == null) {
+        throw { redirect: "/dashboard/shopselect" };
+      }
+
       throw { redirect: "/welcome/hello" };
     }
 
