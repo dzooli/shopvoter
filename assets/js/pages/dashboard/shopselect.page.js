@@ -44,7 +44,7 @@ parasails.registerPage("shopselect", {
       this.goto("/welcome/started");
     },
 
-    selectShopAndSubmit: async function (event) {
+    submitShop: async function (event) {
       var buttonValue =
         event.target.parentElement.tagName == "BUTTON"
           ? event.target.parentElement.value
