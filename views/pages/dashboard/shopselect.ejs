@@ -11,6 +11,7 @@
       :form-rules="formRules" 
       :form-errors.sync="formErrors" 
       @submitted="submittedForm"
+      @rejected="rejectedForm"
     >
       <% for (const shop of shops) { %>
         <% if (shop.id % 3 == 0) { %>

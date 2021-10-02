@@ -35,13 +35,29 @@ parasails.registerPage("shopselect", {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    submittedForm: async function () {
+    submittedForm: async function (msg) {
       // Redirect to the tagger page on success.
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
       this.syncing = true;
       this.$root.$emit("change-notification-type", "success");
+      this.$root.$emit("change-notification-dismissable", true);
+      this.$root.$emit("change-notification-text", msg);
       this.goto("/welcome/started");
+    },
+
+    rejectedForm: async function (msg) {
+      this.syncing = false;
+      this.$root.$emit("change-notification-type", "danger");
+      this.$root.$emit("change-notification-dismissable", false);
+      this.$root.$emit(
+        "change-notification-text",
+        JSON.stringify({
+          error: msg.name,
+          cause: msg.responseInfo.data.cause.name,
+          code: msg.responseInfo.data.cause.raw.code,
+        })
+      );
     },
 
     submitShop: async function (event) {
