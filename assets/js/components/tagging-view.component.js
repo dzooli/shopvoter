@@ -42,35 +42,35 @@ parasails.registerComponent("taggingView", {
           <ajax-button type="submit"
           @click="sendOpinion"
           :syncing="syncing"
-          :disabled="buttonsDisabled ? true: false"
+          :disabled="buttonsDisabled"
           class="btn btn-primary btn-lg">
           1</ajax-button>
 
           <ajax-button type="submit"
           @click="sendOpinion"
           :syncing="syncing"
-          :disabled="buttonsDisabled ? true: false"
+          :disabled="buttonsDisabled"
           class="btn btn-primary btn-lg">
           2</ajax-button>
 
           <ajax-button type="submit"
           @click="sendOpinion"
           :syncing="syncing"
-          :disabled="buttonsDisabled ? true: false"
+          :disabled="buttonsDisabled"
           class="btn btn-primary btn-lg">
           3</ajax-button>
 
           <ajax-button type="submit"
           @click="sendOpinion"
           :syncing="syncing"
-          :disabled="buttonsDisabled ? true: false"
+          :disabled="buttonsDisabled"
           class="btn btn-primary btn-lg">
           4</ajax-button>
 
           <ajax-button type="submit"
           @click="sendOpinion"
           :syncing="syncing"
-          :disabled="buttonsDisabled ? true: false"
+          :disabled="buttonsDisabled"
           class="btn btn-primary btn-lg">
           5</ajax-button>
 

@@ -1,14 +1,14 @@
 /**
  * <account-notification-banner>
- * -----------------------------------------------------------------------------
+ * ----------------------------------------------------------------------------------------------------------------------
  *
  * @type {Component}
  *
- * -----------------------------------------------------------------------------
+ * @event change-notification-type   [change the alert type to a BS alert class. example: 'success' means 'alert-success']
+ * -----------------------------------------------------------------------------------------------------------------------
  */
 
-parasails.registerComponent('account-notification-banner', {
-
+parasails.registerComponent("account-notification-banner", {
   //  ╔═╗╦ ╦╔╗ ╦  ╦╔═╗  ╔═╗╦═╗╔═╗╔═╗╔═╗
   //  ╠═╝║ ║╠╩╗║  ║║    ╠═╝╠╦╝║ ║╠═╝╚═╗
   //  ╩  ╚═╝╚═╝╩═╝╩╚═╝  ╩  ╩╚═╚═╝╩  ╚═╝
@@ -19,11 +19,12 @@ parasails.registerComponent('account-notification-banner', {
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╩╝╚╝ ╩ ╚═╝╩╚═╝╚╝╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: function () {
     return {
-      notificationText: '',
+      dismissable: false,
+      type: "alert-warning",
+      notificationText: "",
       roomName: undefined,
     };
   },
-
 
   //  ╦ ╦╔╦╗╔╦╗╦
   //  ╠═╣ ║ ║║║║
@@ -31,48 +32,51 @@ parasails.registerComponent('account-notification-banner', {
   template: `
   <div>
     <div class="container-fluid">
-      <div class="alert alert-warning mt-2 small" role="alert" v-if="notificationText">
+      <div ref="messageDiv" v-bind:class="[ dismissable ? 'alert-dismissable' : '', type, 'alert', 'mt-2', 'small']" 
+      role="alert" v-if="notificationText">
         {{notificationText}}
       </div>
     </div>
   </div>
   `,
 
-
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  mounted: async function() {
+  mounted: async function () {
     await Cloud.observeMySession();
     // Listen for updates to the user's session
-    Cloud.on('session', (msg)=>{
-      if(msg.notificationText) {
+    Cloud.on("session", (msg) => {
+      if (msg.notificationText) {
         this.notificationText = msg.notificationText;
       } else {
-        this.notificationText = '';
+        this.notificationText = "";
       }
-    });//œ
+    });
+    this.$root.$on("change-notification-type", this._changeType);
   },
 
-  beforeDestroy: function() {
-    Cloud.off('session');
+  beforeDestroy: function () {
+    Cloud.off("session");
+    this.$root.$off("change-notification-type");
   },
 
   watch: {
-    loggedInUserId: function(unused) { throw new Error('Changes to `loggedInUserId` are not currently supported in <account-notification-banner>!'); },
+    loggedInUserId: function (unused) {
+      throw new Error(
+        "Changes to `loggedInUserId` are not currently supported in <account-notification-banner>!"
+      );
+    },
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-
     //  ╦╔╗╔╔╦╗╔═╗╦═╗╔╗╔╔═╗╦    ╔═╗╦  ╦╔═╗╔╗╔╔╦╗  ╦ ╦╔═╗╔╗╔╔╦╗╦  ╔═╗╦═╗╔═╗
     //  ║║║║ ║ ║╣ ╠╦╝║║║╠═╣║    ║╣ ╚╗╔╝║╣ ║║║ ║   ╠═╣╠═╣║║║ ║║║  ║╣ ╠╦╝╚═╗
     //  ╩╝╚╝ ╩ ╚═╝╩╚═╝╚╝╩ ╩╩═╝  ╚═╝ ╚╝ ╚═╝╝╚╝ ╩   ╩ ╩╩ ╩╝╚╝═╩╝╩═╝╚═╝╩╚═╚═╝
-
     //…
-
     //  ╔═╗╦ ╦╔╗ ╦  ╦╔═╗  ╔╦╗╔═╗╔╦╗╦ ╦╔═╗╔╦╗╔═╗
     //  ╠═╝║ ║╠╩╗║  ║║    ║║║║╣  ║ ╠═╣║ ║ ║║╚═╗
     //  ╩  ╚═╝╚═╝╩═╝╩╚═╝  ╩ ╩╚═╝ ╩ ╩ ╩╚═╝═╩╝╚═╝
@@ -81,13 +85,12 @@ parasails.registerComponent('account-notification-banner', {
     // > `this.$refs.componentNameInCamelCase.doSomething())`, and, by convention,
     // > are always prefixed with "do".
     // N/A
-
     //  ╔═╗╦═╗╦╦  ╦╔═╗╔╦╗╔═╗  ╔╦╗╔═╗╔╦╗╦ ╦╔═╗╔╦╗╔═╗
     //  ╠═╝╠╦╝║╚╗╔╝╠═╣ ║ ║╣   ║║║║╣  ║ ╠═╣║ ║ ║║╚═╗
     //  ╩  ╩╚═╩ ╚╝ ╩ ╩ ╩ ╚═╝  ╩ ╩╚═╝ ╩ ╩ ╩╚═╝═╩╝╚═╝
-
     //…
-
-  }
-
+    _changeType: function (newType) {
+      this.type = "alert-" + newType;
+    },
+  },
 });

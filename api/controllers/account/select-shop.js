@@ -8,7 +8,7 @@ module.exports = {
   inputs: {
     shop_id: {
       type: "number",
-      example: "1",
+      example: 1,
       description: "The shop id",
       whereToGet: {
         description: "Select the shop after login with the shown buttons.",
@@ -23,8 +23,19 @@ module.exports = {
     },
   },
 
-  fn: async function (inputs) {
-    // All done.
-    return;
+  fn: async function ({ shop_id }) {
+    // TODO: process this.req.body and store the changes in the User model
+    let roomName = `session${_.deburr(this.req.sessionID)}`;
+    let messageText = "Shop selected (broadcast from the backend)";
+    sails.log.debug(
+      "Received POST data in selet-shop action: " +
+        JSON.stringify(this.req.body)
+    );
+    sails.sockets.broadcast(
+      roomName,
+      "session",
+      { notificationText: messageText },
+      this.req
+    );
   },
 };
