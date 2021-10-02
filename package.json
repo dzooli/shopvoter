@@ -1,7 +1,7 @@
 {
   "name": "shoptagger",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.9.0",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -21,14 +21,21 @@
     "sails-hook-sockets": "^2.0.0",
     "sails-inverse-model": "^2.0.7",
     "sails-mongo": "^2.0.0",
-    "sails-mysql": "^1.0.3"
+    "sails-mysql": "^1.0.3",
+    "webpack": "^5.56.0"
   },
   "devDependencies": {
     "eslint": "5.16.0",
     "grunt": "^1.4.1",
     "htmlhint": "0.11.0",
     "lesshint": "6.3.6",
-    "sails-hook-grunt": "^4.0.1"
+    "sails-hook-grunt": "^4.0.1",
+    "webpack-cli": "^3.2.1",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-loader": "^8.0.5",
+    "webpack": "^4.29.0",
+    "webpack-dev-server": "^3.1.14"
   },
   "scripts": {
     "debug": "nodemon --inspect=0.0.0.0:9229 app.js",
