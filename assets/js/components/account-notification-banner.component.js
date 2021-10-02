@@ -19,7 +19,7 @@ parasails.registerComponent("account-notification-banner", {
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╩╝╚╝ ╩ ╚═╝╩╚═╝╚╝╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: function () {
     return {
-      dismissable: false,
+      dismissable: true,
       type: "alert-warning",
       notificationText: "",
       roomName: undefined,
@@ -31,11 +31,23 @@ parasails.registerComponent("account-notification-banner", {
   //  ╩ ╩ ╩ ╩ ╩╩═╝
   template: `
   <div>
-    <div class="container-fluid">
-      <div ref="messageDiv" v-bind:class="[ dismissable ? 'alert-dismissable' : '', type, 'alert', 'mt-2', 'small']" 
-      role="alert" v-if="notificationText">
+    <div class="container-fluid flex-lg-row flex-md-fill justify-content-between"
+      style="display: flex;"
+      @click.prevent="_dismiss"
+    >
+      <div ref="messageDiv"
+        v-bind:class="[ dismissable ? 'alert-dismissable' : '', type, 'alert', 'mt-2', 'flex-fill', 'small']"
+        role="alert" v-if="notificationText"
+      >
         {{notificationText}}
       </div>
+      <a role="alert"
+        href=""
+        v-if="dismissable && notificationText"
+        @click.prevent=""
+        v-bind:class="['alert', 'alert-dismissable', type, 'fa', 'fa-close', 'mt-2', 'small', 'nav-link']"
+      >
+      </a>
     </div>
   </div>
   `,
@@ -54,11 +66,15 @@ parasails.registerComponent("account-notification-banner", {
       }
     });
     this.$root.$on("change-notification-type", this._changeType);
+    this.$root.$on("change-notification-text", this._changeText);
+    this.$root.$on("change-notification-dismissable", this._setDissmissable);
   },
 
   beforeDestroy: function () {
     Cloud.off("session");
     this.$root.$off("change-notification-type");
+    this.$root.$off("change-notification-text");
+    this.$root.$off("change-notification-dismissable");
   },
 
   watch: {
@@ -89,8 +105,20 @@ parasails.registerComponent("account-notification-banner", {
     //  ╠═╝╠╦╝║╚╗╔╝╠═╣ ║ ║╣   ║║║║╣  ║ ╠═╣║ ║ ║║╚═╗
     //  ╩  ╩╚═╩ ╚╝ ╩ ╩ ╩ ╚═╝  ╩ ╩╚═╝ ╩ ╩ ╩╚═╝═╩╝╚═╝
     //…
+    _dismiss: function () {
+      this.notificationText = "";
+    },
+
     _changeType: function (newType) {
       this.type = "alert-" + newType;
+    },
+
+    _changeText: function (newText) {
+      this.notificationText = newText;
+    },
+
+    _setDissmissable: function (dismissable) {
+      this.dismissable = dismissable;
     },
   },
 });
