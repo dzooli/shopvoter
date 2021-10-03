@@ -39,9 +39,8 @@ parasails.registerPage("shopselect", {
       // Redirect to the tagger page on success.
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
-      this.syncing = true;
+      //this.syncing = true;
       parasails.util.showFlash("success", msg, true, this);
-      this.goto("/welcome/started");
     },
 
     rejectedForm: async function (msg) {
