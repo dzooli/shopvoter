@@ -40,23 +40,21 @@ parasails.registerPage("shopselect", {
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
       this.syncing = true;
-      this.$root.$emit("change-notification-type", "success");
-      this.$root.$emit("change-notification-dismissable", true);
-      this.$root.$emit("change-notification-text", msg);
+      parasails.util.showFlash("success", msg, true, this);
       this.goto("/welcome/started");
     },
 
     rejectedForm: async function (msg) {
       this.syncing = false;
-      this.$root.$emit("change-notification-type", "danger");
-      this.$root.$emit("change-notification-dismissable", false);
-      this.$root.$emit(
-        "change-notification-text",
+      parasails.util.showFlash(
+        "danger",
         JSON.stringify({
           error: msg.name,
           cause: msg.responseInfo.data.cause.name,
           code: msg.responseInfo.data.cause.raw.code,
-        })
+        }),
+        false,
+        this
       );
     },
 
