@@ -31,13 +31,12 @@ module.exports = {
     var body = req.body;
 
     let roomName = `session${_.deburr(req.sessionID)}`;
-    let messageText = "Shop selected (broadcast from the backend)";
     sails.log.debug(
       "Received POST data in selet-shop action: " + JSON.stringify(body)
     );
 
     if (body.lastShopLogin == undefined) {
-      this.setNotification("POST data error");
+      this.setNotification(roomName, "POST data error");
       throw "invalidPostData";
     }
 
