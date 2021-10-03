@@ -136,3 +136,5 @@ data/mysql/data
 data/mongodb/db
 sails-output
 www/
+data/mysql/users.sql
+package-lock.json
