@@ -5,6 +5,8 @@
  * @type {Component}
  *
  * @event change-notification-type   [change the alert type to a BS alert class. example: 'success' means 'alert-success']
+ *
+ * @property text [initial text to display]
  * -----------------------------------------------------------------------------------------------------------------------
  */
 
@@ -12,7 +14,7 @@ parasails.registerComponent("account-notification-banner", {
   //  ╔═╗╦ ╦╔╗ ╦  ╦╔═╗  ╔═╗╦═╗╔═╗╔═╗╔═╗
   //  ╠═╝║ ║╠╩╗║  ║║    ╠═╝╠╦╝║ ║╠═╝╚═╗
   //  ╩  ╚═╝╚═╝╩═╝╩╚═╝  ╩  ╩╚═╚═╝╩  ╚═╝
-  props: [],
+  props: ["text"],
 
   //  ╦╔╗╔╦╔╦╗╦╔═╗╦    ╦╔╗╔╔╦╗╔═╗╦═╗╔╗╔╔═╗╦    ╔═╗╔╦╗╔═╗╔╦╗╔═╗
   //  ║║║║║ ║ ║╠═╣║    ║║║║ ║ ║╣ ╠╦╝║║║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
@@ -60,6 +62,7 @@ parasails.registerComponent("account-notification-banner", {
     // Listen for updates to the user's session
     Cloud.on("session", (msg) => {
       if (msg.notificationText) {
+        this._changeType("warning");
         this.notificationText = msg.notificationText;
       } else {
         this.notificationText = "";
@@ -68,6 +71,12 @@ parasails.registerComponent("account-notification-banner", {
     this.$root.$on("change-notification-type", this._changeType);
     this.$root.$on("change-notification-text", this._changeText);
     this.$root.$on("change-notification-dismissable", this._setDissmissable);
+  },
+
+  beforeMount: function () {
+    if (this.text) {
+      this.notificationText = this.text;
+    }
   },
 
   beforeDestroy: function () {
