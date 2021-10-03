@@ -10,21 +10,50 @@ module.exports = {
       description: "Redirect to the login page if not logged in.",
       responseType: "redirect",
     },
+
+    invalidPostData: {
+      statusCode: 409,
+      description: "The provided POST data is incomplete.",
+    },
   },
 
-  fn: async function () {
-    // TODO: process this.req.body and store the changes in the User model
-    let roomName = `session${_.deburr(this.req.sessionID)}`;
-    let messageText = "Shop selected (broadcast from the backend)";
-    sails.log.debug(
-      "Received POST data in selet-shop action: " +
-        JSON.stringify(this.req.body)
-    );
+  setNotification: function (roomName, text) {
     sails.sockets.broadcast(
       roomName,
       "session",
-      { notificationText: messageText },
+      { notificationText: text },
       this.req
     );
+  },
+
+  fn: async function () {
+    var req = this.req;
+    var body = req.body;
+
+    let roomName = `session${_.deburr(req.sessionID)}`;
+    let messageText = "Shop selected (broadcast from the backend)";
+    sails.log.debug(
+      "Received POST data in selet-shop action: " + JSON.stringify(body)
+    );
+
+    if (body.lastShopLogin == undefined) {
+      this.setNotification("POST data error");
+      throw "invalidPostData";
+    }
+
+    // Update the record for the logged-in user.
+    var updatedUser = await User.updateOne({ id: req.me.id }).set({
+      lastShopLogin: body.lastShopLogin,
+    });
+    if (!updatedUser) {
+      sails.log.error(
+        "Cannot update the user: " +
+          JSON.stringify(req.me) +
+          " with: " +
+          JSON.stringify(body)
+      );
+      throw "notFound";
+    }
+    sails.log.info("User shop-select update success.");
   },
 };
