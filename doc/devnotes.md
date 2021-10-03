@@ -1,4 +1,6 @@
-# Dismissable alert HTML
+# Development notes a gists
+
+## Dismissable alert HTML
 
 Requires [Bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduction/) with [FontAwesome](https://fontawesome.com/v6.0/icons?s=solid%2Cbrands).
 
@@ -17,7 +19,7 @@ Requires [Bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduct
     </div></div>
 ```
 
-# Add parasails utility function
+## Add parasails utility function
 
 ```javascript
 // Register
