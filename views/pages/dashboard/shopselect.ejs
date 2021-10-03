@@ -1,8 +1,8 @@
 <div id="shopselect" v-cloak>
-  <account-notification-banner roomName="session"></account-notification-banner>
+  <account-notification-banner roomName="session" text="<%= msg %>"></account-notification-banner>
   <div class="container pt-5 pb-5">
 
-    <h1><%= me.fullName %>'s Shops @ <%= company.name %></h1>
+    <h1>Select shop for <%= me.fullName %>@<%= company.name %></h1>
  
     <ajax-form ref="form" action="selectShop" 
       :syncing.sync="syncing" 
