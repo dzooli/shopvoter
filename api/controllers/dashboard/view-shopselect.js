@@ -31,7 +31,13 @@ module.exports = {
       id++;
     }
 
+    msg = undefined;
+    if (!this.req.me.lastShopLogin) {
+      msg = "You have no default shop selected. Select one first!";
+    }
+
     return {
+      msg: msg,
       company: fullUser.company_id,
       shops: data,
     };
