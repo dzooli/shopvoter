@@ -34,6 +34,7 @@ email status until they click the link in the confirmation email.`,
     emailChangeCandidate: {
       type: "string",
       isEmail: true,
+      allowNull: true,
       description:
         "A still-unconfirmed email address that this user wants to change to (if relevant).",
     },
