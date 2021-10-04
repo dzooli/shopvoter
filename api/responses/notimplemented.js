@@ -20,7 +20,7 @@
  *     }
  * ```
  */
-module.exports = function expired() {
+module.exports = function notimplemented() {
   var req = this.req;
   var res = this.res;
 
