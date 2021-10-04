@@ -17,7 +17,7 @@ parasails.registerUtility(
     component.$root.$emit("change-notification-type", type);
     component.$root.$emit(
       "change-notification-dismissable",
-      dismissable ? dismissable : true
+      dismissable !== undefined ? dismissable : true
     );
     component.$root.$emit("change-notification-text", message);
   }
