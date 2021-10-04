@@ -53,6 +53,7 @@ module.exports.routes = {
   "POST /api/v1/account/select-shop/": {
     action: "account/select-shop",
   },
+  "POST /api/v1/account/add-tag": { action: "account/add-tag" },
   "PUT   /api/v1/account/update-password": {
     action: "account/update-password",
   },
