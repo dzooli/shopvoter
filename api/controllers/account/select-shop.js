@@ -15,6 +15,11 @@ module.exports = {
       statusCode: 409,
       description: "The provided POST data is incomplete.",
     },
+
+    cantUpdate: {
+      description: "Cannot update the data record!",
+      responseType: "notfound",
+    },
   },
 
   setNotification: function (roomName, text) {
@@ -51,7 +56,7 @@ module.exports = {
           " with: " +
           JSON.stringify(body)
       );
-      throw "notFound";
+      throw "cantUpdate";
     }
     sails.log.info("User shop-select update success.");
   },
