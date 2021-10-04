@@ -65,6 +65,7 @@ parasails.registerComponent("taggingView", {
           1</ajax-button>
 
           <ajax-button type="submit"
+          @click="click"
           :syncing="syncing"
           :disabled="buttonsDisabled"
           value=2
@@ -72,6 +73,7 @@ parasails.registerComponent("taggingView", {
           2</ajax-button>
 
           <ajax-button type="submit"
+          @click="click"
           :syncing="syncing"
           :disabled="buttonsDisabled"
           value=3
@@ -79,6 +81,7 @@ parasails.registerComponent("taggingView", {
           3</ajax-button>
 
           <ajax-button type="submit"
+          @click="click"
           :syncing="syncing"
           :disabled="buttonsDisabled"
           value=4
@@ -86,6 +89,7 @@ parasails.registerComponent("taggingView", {
           4</ajax-button>
 
           <ajax-button type="submit"
+          @click="click"
           :syncing="syncing"
           :disabled="buttonsDisabled"
           value=5
