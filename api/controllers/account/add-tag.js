@@ -10,13 +10,20 @@ module.exports = {
       description: "The initiated action is not yet implemented.",
       responseType: "notimplemented",
     },
+
+    missing: {
+      description: "Something is missing.",
+      responseType: "notfound",
+    },
   },
 
   fn: async function (inputs) {
     var req = this.req;
     var res = this.res;
 
-    sails.log.debug(JSON.stringify(req.body));
-    //throw "notyet";
+    sails.log.debug(
+      "Received POST data in add-tag action: " + JSON.stringify(req.body)
+    );
+    throw "notyet";
   },
 };
