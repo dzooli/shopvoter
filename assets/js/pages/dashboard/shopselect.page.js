@@ -7,7 +7,9 @@ parasails.registerPage("shopselect", {
     syncing: false,
 
     // Form data
-    formData: {},
+    formData: {
+      lastShopLogin: 0,
+    },
 
     // For tracking client-side validation errors in our form.
     // > Has property set to `true` for each invalid property in `formData`.
@@ -39,37 +41,18 @@ parasails.registerPage("shopselect", {
       // Redirect to the tagger page on success.
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
-      //this.syncing = true;
+      this.syncing = false;
       parasails.util.showFlash("success", msg, true, this);
     },
 
     rejectedForm: async function (msg) {
       this.syncing = false;
-      parasails.util.showFlash(
-        "danger",
-        JSON.stringify({
-          error: msg.name,
-          cause: msg.responseInfo.data.cause.name,
-          code: msg.responseInfo.data.cause.raw.code,
-        }),
-        false,
-        this
-      );
+      parasails.util.showFlash("danger", msg.responseInfo.body, false, this);
     },
 
-    submitShop: async function (event) {
-      var buttonValue =
-        event.target.parentElement.tagName == "BUTTON"
-          ? event.target.parentElement.value
-          : event.target.value;
-      this.formData.lastShopLogin = parseInt(buttonValue);
-      if (
-        this.formData.lastShopLogin !== undefined &&
-        typeof this.formData.lastShopLogin == "number"
-      ) {
-        this.syncing = true;
-        await this.$refs.form.submit();
-      }
+    click: function (ev) {
+      this.syncing = true;
+      this.formData.lastShopLogin = ev.value;
     },
   },
 });
