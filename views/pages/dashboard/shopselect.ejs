@@ -20,9 +20,9 @@
           <div class="card" style="flex: auto;">
             <div class="card-body">
 
-              <button type="submit" name="shop_id" 
+              <ajax-button type="submit" name="shop_id" 
                 value=<%- shop.shop.shop_id.id %> 
-                @click.prevent="submitShop($event)" 
+                @click="click" 
                 class="btn btn-primary btn-lg" 
                 style="min-width: -webkit-fill-available;"
               >
@@ -35,7 +35,7 @@
                   <div class="card-subtitle pt-2" style="font-size: 80%;">
                     <%- shop.shop.shop_id.address1 ? shop.shop.shop_id.address1 : "&nbsp;" %>
                   </div>
-              </button>
+              </ajax-button>
 
             </div>
           </div>
