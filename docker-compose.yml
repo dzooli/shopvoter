@@ -18,7 +18,6 @@ services:
       - "mysql"
 
   mongodb:
-    # DB_URL=mongod
     ports:
       - "127.0.0.1:27017:27017"
     image: mongo:4.4 # as of this writing, the latest version is 4.4.3
@@ -37,6 +36,7 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://root:test@mongodb:27017/
     depends_on:
       - "mongodb"
+      - "mysql"
 
   mysql:
     image: mysql:latest
