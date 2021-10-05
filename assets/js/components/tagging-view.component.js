@@ -140,7 +140,7 @@ parasails.registerComponent("taggingView", {
 
     submittedForm: function (msg) {
       this.syncing = true;
-      parasails.utils.showFlash("success", msg, true, this);
+      //parasails.utils.showFlash("success", msg, true, this);
       this.startCounter();
     },
 

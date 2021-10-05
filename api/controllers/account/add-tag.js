@@ -18,12 +18,30 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    var req = this.req;
-    var res = this.res;
+    let req = this.req;
+    let res = this.res;
 
     sails.log.debug(
       "Received POST data in add-tag action: " + JSON.stringify(req.body)
     );
-    throw "notyet";
+
+    try {
+      var value = parseInt(req.body.tagValue);
+    } catch (err) {
+      throw "missing";
+    }
+    sails.log.debug("Parsed body tagValue: " + value.toString());
+
+    let createdTag = await Tag.createEach([
+      {
+        user_id: req.me.id,
+        shop_id: req.me.lastShopLogin,
+        tagValue: value,
+      },
+    ]).fetch();
+    sails.log.debug("Created vote: " + JSON.stringify(createdTag));
+    if (undefined === createdTag) {
+      throw "missing";
+    }
   },
 };

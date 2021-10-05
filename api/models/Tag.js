@@ -24,16 +24,6 @@ module.exports = {
       isInteger: true,
       required: true,
     },
-    createdAt: {
-      type: "number",
-      columnType: "bigint",
-      isInteger: true,
-    },
-    updatedAt: {
-      type: "number",
-      columnType: "bigint",
-      isInteger: true,
-    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
