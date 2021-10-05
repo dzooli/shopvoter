@@ -5,6 +5,8 @@
  * @type {Component}
  *
  * @event change-notification-type   [change the alert type to a BS alert class. example: 'success' means 'alert-success']
+ * @event change-notification-text   [change the alert text']
+ * @event change-notification-dismissable   [change the alert dismissable status']
  *
  * @property text [initial text to display]
  * -----------------------------------------------------------------------------------------------------------------------
