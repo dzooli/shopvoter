@@ -70,17 +70,11 @@ parasails.registerPage("welcome", {
     },
 
     setMenuItemsVisibility: async function (visible) {
-      var elements = document.querySelectorAll(".hide-on-start");
       if (visible) {
-        elements.forEach((el) => {
-          el.style.display = "block";
-        });
-        return;
+        $(".hide-on-start").show();
+      } else {
+        $(".hide-on-start").hide();
       }
-
-      elements.forEach((el) => {
-        el.style.display = "none";
-      });
     },
   },
 });
