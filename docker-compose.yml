@@ -6,6 +6,11 @@ services:
     # Run npm install before starting sails to keep our dependencies installed and updated
     command: sh -c "npm install && npm run debug"
     working_dir: /app # same as -w with docker cli
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     ports: # same as -p with docker cli
       - "127.0.0.1:1337:1337"
       - "127.0.0.1:9229:9229"
@@ -18,16 +23,26 @@ services:
       - "mysql"
 
   mongodb:
+    image: mongo:4.4 # as of this writing, the latest version is 4.4.3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     ports:
       - "127.0.0.1:27017:27017"
-    image: mongo:4.4 # as of this writing, the latest version is 4.4.3
     env_file:
       - ./mongo.env
     volumes:
       - ./data/mongodb/db:/data/db
-  
+
   mongo-express:
     image: mongo-express
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     ports:
       - "127.0.0.1:8081:8081"
     environment:
@@ -40,6 +55,11 @@ services:
 
   mysql:
     image: mysql:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     ports:
       - "127.0.0.1:3306:3306"
     volumes:
