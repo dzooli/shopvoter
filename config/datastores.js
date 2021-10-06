@@ -47,6 +47,10 @@ module.exports.datastores = {
      ***************************************************************************/
     adapter: "sails-mysql",
     url: "mysql://tagger:tagger@mysql:3306/tagger",
-    /** changed */
+  },
+
+  tag: {
+    adapter: "sails-mongo",
+    url: "mongodb://tagger:test@mongodb:27017/tagger",
   },
 };

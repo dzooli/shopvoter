@@ -15,6 +15,11 @@ module.exports = {
       description: "Something is missing.",
       responseType: "notfound",
     },
+
+    failed: {
+      description: "DB opertion has been failed",
+      responseType: "dbfail",
+    },
   },
 
   fn: async function (inputs) {
@@ -32,16 +37,54 @@ module.exports = {
     }
     sails.log.debug("Parsed body tagValue: " + value.toString());
 
-    let createdTag = await Tag.createEach([
+    /** Waterline with the default DB (actually MySQL) */
+    /*
+    var createdTag = await Tag.createEach([
       {
         user_id: req.me.id,
         shop_id: req.me.lastShopLogin,
         tagValue: value,
       },
     ]).fetch();
+    */
+
+    /** Use the MongoDB datastore */
+    let db = sails.getDatastore("tag").manager;
+    let createTime = Date.now();
+    var tagDoc = new Object({
+      user_id: req.me.id,
+      shop_id: req.me.lastShopLogin,
+      tagValue: value,
+      createdAt: createTime,
+      updatedAt: createTime,
+    });
+    await db.collection("tag").insertOne(
+      tagDoc,
+      {
+        forceServerObjectId: true,
+      },
+      function (err, result) {
+        if (err) {
+          throw "failed";
+        }
+      }
+    );
+    /** verify for Mongo */
+    let createdTagCount = await db
+      .collection("tag")
+      .count(tagDoc, function (err, result) {
+        if (err) {
+          throw "failed";
+        }
+      });
+
+    /** verify for MySQL */
+    /*
     sails.log.debug("Created vote: " + JSON.stringify(createdTag));
-    if (undefined === createdTag) {
-      throw "missing";
+    
+    if (undefined === createdTag || !createdTag) {
+      throw "failed";
     }
+    */
   },
 };
