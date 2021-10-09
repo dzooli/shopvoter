@@ -9,6 +9,7 @@
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
+    "cypress": "^8.5.0",
     "sails": "^1.5.0",
     "sails-apidocs": "^0.0.2",
     "sails-boilerplate": "^0.0.4",
@@ -25,16 +26,16 @@
     "webpack": "^5.56.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-loader": "^8.0.5",
     "eslint": "5.16.0",
     "grunt": "^1.4.1",
     "htmlhint": "0.11.0",
     "lesshint": "6.3.6",
     "sails-hook-grunt": "^4.0.1",
-    "webpack-cli": "^3.2.1",
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "babel-loader": "^8.0.5",
     "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
   },
   "scripts": {
