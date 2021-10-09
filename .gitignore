@@ -138,3 +138,6 @@ sails-output
 www/
 data/mysql/users.sql
 package-lock.json
+cypress/screenshots
+cypress/videos
+
