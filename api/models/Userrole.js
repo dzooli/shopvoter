@@ -4,28 +4,24 @@
 */
 
 module.exports = {
-    attributes: {
-        user_id: {
-            type: "number",
-            columnType: "int",
-            isInteger: true,
-            required: true
-        },
-        role_id: {
-            type: "number",
-            columnType: "int",
-            isInteger: true,
-            required: true
-        },
-        createdAt: {
-            type: "number",
-            columnType: "bigint",
-            isInteger: true
-        },
-        updatedAt: {
-            type: "number",
-            columnType: "bigint",
-            isInteger: true
-        }
-    }
+  attributes: {
+    user_id: {
+      type: "number",
+      required: true,
+    },
+    role_id: {
+      model: "role",
+      required: true,
+    },
+    createdAt: {
+      type: "number",
+      columnType: "bigint",
+      isInteger: true,
+    },
+    updatedAt: {
+      type: "number",
+      columnType: "bigint",
+      isInteger: true,
+    },
+  },
 };

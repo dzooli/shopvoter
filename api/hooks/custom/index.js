@@ -284,6 +284,10 @@ will be disabled and/or hidden in the UI.
               } //ﬁ
 
               res.locals.me = sanitizedUser;
+              var userroles = await sails.helpers.getUserRoles(
+                sanitizedUser.id
+              );
+              res.locals.me = _.extend(res.locals.me, userroles);
 
               // Include information on the locals as to whether billing features
               // are enabled for this app, and whether email verification is required.
