@@ -1,7 +1,7 @@
 /**
  * is-super-admin
  *
- * A simple policy that blocks requests from non-super-admins.
+ * A simple policy that blocks requests from non-company-admins.
  *
  * For more about how to use policies, see:
  *   https://sailsjs.com/config/policies
@@ -20,7 +20,7 @@ module.exports = async function (req, res, proceed) {
     sails.log.debug("Forbidden do to non super-admin");
     return res.forbidden();
   }
-  sails.log.debug("Checking for super-admin role...");
-  var accepted = await sails.helpers.hasRole(req.me.id, "superuser");
-  return accepted ? proceed() : res.forbidden();
+  sails.log.debug("Checking for company admin role...");
+  var accepted = await sails.helpers.hasRole(req.me.id, "companyadmin");
+  return accepted ? proceed() : req.forbidden();
 };

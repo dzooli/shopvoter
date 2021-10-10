@@ -8,6 +8,7 @@ module.exports = {
       description: "The id of the account to retrieve the roles.",
       type: "number",
       requred: false,
+      example: 2,
     },
   },
 

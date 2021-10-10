@@ -8,6 +8,7 @@ module.exports = {
       type: "number",
       required: true,
       description: "The id of the user for getting the associated roles.",
+      example: 1,
     },
   },
 
