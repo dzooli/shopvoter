@@ -1,7 +1,8 @@
 {
   "generators": {
     "modules": {
-        "micro-app": "sails-generate-micro-app"
+      "micro-app": "sails-generate-micro-app",
+      "vue-component": "@acidev/sails-generate-vue-component"
     }
   },
   "_generatedWith": {
