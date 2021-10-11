@@ -30,6 +30,7 @@ module.exports = {
     var result = {
       user_id: inputs.id,
       roles: [],
+      rolenames: [],
     };
     userRoles.forEach((element) => {
       let sanitized = {
@@ -39,6 +40,9 @@ module.exports = {
         description: element.role_id.description,
       };
       result.roles.push(sanitized);
+      if (result.rolenames.indexOf(sanitized.name) === -1) {
+        result.rolenames.push(sanitized.name);
+      }
     });
     // Send back the result through the success exit.
     return result;

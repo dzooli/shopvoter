@@ -29,3 +29,16 @@ parasails.registerUtility('name', function(params) {body;});
 
 parasails.util.name(params);
 ```
+
+## Role definitions
+
+- User:
+  - Can select assigned shops and start voting
+  - Update profile for itself.
+- CompanyAdmin:
+  - CRUD owned shops and owned users.
+  - Assign the 'User' and 'CompanyAdmin' roles to the owned users.
+  - Assign owned users to owned shops.
+- SuperUser:
+  - CRUD everything
+  - Assign all roles and shops to every user.
