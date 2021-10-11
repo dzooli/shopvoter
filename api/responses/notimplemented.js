@@ -1,9 +1,5 @@
 /**
- * expired.js
- *
- * A custom response that content-negotiates the current request to either:
- *  • serve an HTML error page about the specified token being invalid or expired
- *  • or send back 498 (Token Expired/Invalid) with no response body.
+ * notimplemented.js
  *
  * Example usage:
  * ```
@@ -29,6 +25,6 @@ module.exports = function notimplemented() {
   if (req.wantsJSON) {
     return res.status(499).send("Not implemented function.");
   } else {
-    return res.status(498).view("499");
+    return res.status(499).view("499");
   }
 };
