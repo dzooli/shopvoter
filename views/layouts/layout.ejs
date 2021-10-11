@@ -2,6 +2,8 @@
   // In case we're displaying the 404 or 500 page and relevant code in the "custom" hook was not able to run,
   // we make sure `me` exists.  This ensures we don't have to do `typeof` checks below.
   var me = undefined;
+} else {
+  var roleString = me.rolenames.toString().replace(/\,/g, ", ");
 } %>
 <!DOCTYPE html>
 <html>
@@ -48,7 +50,6 @@
 
 <body>
   <div purpose="page-wrap">
-
     <header class="navbar navbar-expand-sm navbar-dark bg-dark flex-column flex-md-row justify-content-between" purpose="page-header">
       <a style="cursor: pointer;" class="navbar-brand nav-item nav-link mr-0" href="/welcome/started">
         <img style="height: 20px;" class="logo" alt="ShopVoter logo" src="/images/logo.png" />
@@ -56,14 +57,30 @@
       <div class="navbar-nav flex-row">
         <!-- LOGGED-IN NAVIGATION -->
         <% if(me) { %>
-        <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/contact">Help</a>
         <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/dashboard/shopselect">Shops</a>
+        <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/contact">Help</a>
         <!-- Only in desktop nav -->
+          <% if(me.rolenames.indexOf("companyadmin") !== -1 || me.rolenames.indexOf("superuser") !== -1) { %>
+          <div class="hide-on-start nav-item dropdown d-none d-sm-block">
+            <a class="hide-on-start nav-link dropdown-toggle" id="header-admin-menu-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+            <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu" aria-labelledby="header-account-menu-link">
+              <a class="dropdown-item" href="/admin/user">Users</a>
+              <a class="dropdown-item" href="/admin/shop">Shops</a>                
+              <% if(me.rolenames.indexOf("superuser") !== -1) { %>
+                <a class="dropdown-item" href="/admin/company">Companies</a>
+              <% } %>
+            </div>
+          </div>
+          <% } %>
         <div class="hide-on-start nav-item dropdown d-none d-sm-block">
           <a class="hide-on-start nav-link dropdown-toggle" id="header-account-menu-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
           <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu" aria-labelledby="header-account-menu-link">
             <a class="dropdown-item" href="/account">Settings</a>
             <a class="dropdown-item" href="/logout">Sign out</a>
+            <div class="badge-warning">
+              <div class="badge"><%- me.fullName %></div>
+              <div class="badge" style="text-transform: capitalize; white-space: pre-wrap;"><%- roleString %></div>
+            </div>
           </div>
         </div>
         <!-- Only in mobile nav -->
