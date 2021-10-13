@@ -4,7 +4,7 @@
     <div style="max-width: 450px;" class="mx-auto" >
       <p class="text-center">Let's get started! Becoming a member is free and only takes a few minutes.</p>
       <hr/>
-      <ajax-form action="signup" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-errors.sync="formErrors" :form-data="formData" :form-rules="formRules" @submitted="submittedForm()">
+      <ajax-form action="signup" companyadmin-endpoint="company/admin" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-errors.sync="formErrors" :form-data="formData" :form-rules="formRules" @submitted="submittedForm()">
         <div class="form-group">
           <label for="full-name">Full name</label>
           <input class="form-control" id="full-name" type="text"  :class="[formErrors.fullName ? 'is-invalid' : '']" v-model.trim="formData.fullName" placeholder="Sturgis P. Sturgeon" autocomplete="name" focus-first>
@@ -24,6 +24,15 @@
           <label for="confirm-password">Confirm password</label>
           <input class="form-control" id="confirm-password" type="password"  :class="[formErrors.confirmPassword ? 'is-invalid' : '']" v-model.trim="formData.confirmPassword" placeholder="••••••••" autocomplete="new-password">
           <div class="invalid-feedback" v-if="formErrors.confirmPassword">Your password and confirmation do not match.</div>
+        </div>
+        <div class="form-group">
+          <label for="company-admin">Company Admin</label>
+          <select class="custom-select" id="company-admin" type="text" :class="[formErrors.companyAdmin ? 'is-invalid' : '']" v-model="formData.companyAdmin" placeholder="Select your manager" autocomplete="companyAdmin">
+            <option v-for="option in companyAdmins" v-bind:value="option.id">
+              {{ option.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback" v-if="formErrors.companyAdmin">You really have to select your manager.</div>
         </div>
         <div class="form-group form-check">
           <input class="form-check-input" id="terms-agreement" type="checkbox" v-model="formData.agreed">

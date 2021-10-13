@@ -14,6 +14,7 @@ module.exports.policies = {
   // Bypass the `is-logged-in` policy for:
   "entrance/*": true,
   "account/logout": true,
+  "company/admin": true,
   "view-homepage-or-redirect": true,
   "view-faq": true,
   "view-contact": true,

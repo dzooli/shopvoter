@@ -1,41 +1,58 @@
-parasails.registerPage('signup', {
+parasails.registerPage("signup", {
   //  ╦╔╗╔╦╔╦╗╦╔═╗╦    ╔═╗╔╦╗╔═╗╔╦╗╔═╗
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
+    companyAdmins: {},
     // Form data
-    formData: { /* … */ },
+    formData: {
+      /* … */
+    },
 
     // For tracking client-side validation errors in our form.
     // > Has property set to `true` for each invalid property in `formData`.
-    formErrors: { /* … */ },
+    formErrors: {
+      /* … */
+    },
 
     // Form rules
     formRules: {
-      fullName: {required: true},
-      emailAddress: {required: true, isEmail: true},
-      password: {required: true},
-      confirmPassword: {required: true, sameAs: 'password'},
-      agreed: {required: true},
+      fullName: { required: true },
+      emailAddress: { required: true, isEmail: true },
+      companyAdmin: { required: true },
+      password: { required: true },
+      confirmPassword: { required: true, sameAs: "password" },
+      agreed: { required: true },
     },
 
     // Syncing / loading state
     syncing: false,
 
     // Server error state
-    cloudError: '',
+    cloudError: "",
 
     // Success state when form has been submitted
     cloudSuccess: false,
   },
 
+  props: ["companyadmin-endpoint"],
+
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function() {
-    //…
+  beforeMount: function () {
+    /*this.companyAdmins = await Cloud[this.companyadmin-endpoint].tolerate((err) => {
+      this.cloudError.push(err);
+      this.$emit("update:cloudError", err);
+    });
+    */
+    this.companyAdmins = [
+      { id: 1, name: "C1 Admin", company_id: 2 },
+      { id: 2, name: "C2 Admin", company_id: 3 },
+    ];
   },
-  mounted: async function() {
+
+  mounted: async function () {
     //…
   },
 
@@ -43,20 +60,17 @@ parasails.registerPage('signup', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-
-    submittedForm: async function() {
-      if(this.isEmailVerificationRequired) {
+    submittedForm: async function () {
+      if (this.isEmailVerificationRequired) {
         // If email confirmation is enabled, show the success message.
         this.cloudSuccess = true;
-      }
-      else {
+      } else {
         // Otherwise, redirect to the logged-in dashboard.
         // > (Note that we re-enable the syncing state here.  This is on purpose--
         // > to make sure the spinner stays there until the page navigation finishes.)
         this.syncing = true;
-        window.location = '/';
+        window.location = "/";
       }
     },
-
-  }
+  },
 });
