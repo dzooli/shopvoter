@@ -18,6 +18,11 @@
       <div class="col"><strong>{{me.fullName}}</strong></div>
     </div>
     <div class="row">
+      <div class="col-3">Company:</div>
+      <div class="col"><strong>{{companyName}}</strong></div>
+    </div>
+
+    <div class="row">
       <div class="col-3">Email:</div>
       <div class="col">
         <strong :class="[me.emailStatus === 'unconfirmed' || me.emailStatus === 'change-requested' ? 'text-muted' : '']">{{me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress}}</strong>

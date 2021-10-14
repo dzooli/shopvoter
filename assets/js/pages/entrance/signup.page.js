@@ -3,7 +3,6 @@ parasails.registerPage("signup", {
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
-    companyAdmins: {},
     // Form data
     formData: {
       /* … */
@@ -19,7 +18,6 @@ parasails.registerPage("signup", {
     formRules: {
       fullName: { required: true },
       emailAddress: { required: true, isEmail: true },
-      companyAdmin: { required: true },
       password: { required: true },
       confirmPassword: { required: true, sameAs: "password" },
       agreed: { required: true },
@@ -35,22 +33,10 @@ parasails.registerPage("signup", {
     cloudSuccess: false,
   },
 
-  props: ["companyadmin-endpoint"],
-
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function () {
-    /*this.companyAdmins = await Cloud[this.companyadmin-endpoint].tolerate((err) => {
-      this.cloudError.push(err);
-      this.$emit("update:cloudError", err);
-    });
-    */
-    this.companyAdmins = [
-      { id: 1, name: "C1 Admin", company_id: 2 },
-      { id: 2, name: "C2 Admin", company_id: 3 },
-    ];
-  },
+  beforeMount: function () {},
 
   mounted: async function () {
     //…

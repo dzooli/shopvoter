@@ -1,5 +1,3 @@
-const { result } = require("underscore");
-
 module.exports = {
   friendlyName: "Company Admin list action",
 

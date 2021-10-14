@@ -74,12 +74,12 @@
           <% } %>
         <div class="hide-on-start nav-item dropdown d-none d-sm-block">
           <a class="hide-on-start nav-link dropdown-toggle" id="header-account-menu-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
-          <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu" aria-labelledby="header-account-menu-link">
+          <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu pb-0" aria-labelledby="header-account-menu-link">
             <a class="dropdown-item" href="/account">Settings</a>
             <a class="dropdown-item" href="/logout">Sign out</a>
             <div class="badge-warning">
               <div class="badge"><%- me.fullName %></div>
-              <div class="badge" style="text-transform: capitalize; white-space: pre-wrap;"><%- roleString %></div>
+              <div class="row ml-2 small" style="text-transform: capitalize; white-space: pre-wrap;"><%- roleString %></div>
             </div>
           </div>
         </div>
