@@ -22,9 +22,16 @@ parasails.registerPage("edit-profile", {
 
     // Form rules
     formRules: {
-      fullName: { required: true },
-      emailAddress: { required: true, isEmail: true },
-      companyAdmin: { required: true },
+      fullName: {
+        required: true
+      },
+      emailAddress: {
+        required: true,
+        isEmail: true
+      },
+      companyAdmin: {
+        required: true
+      },
     },
 
     // Server error state for the form
@@ -38,9 +45,9 @@ parasails.registerPage("edit-profile", {
     // Set the form data.
     this.formData.companyAdmin = this.me.company_id;
     this.formData.fullName = this.me.fullName;
-    this.formData.emailAddress = this.me.emailChangeCandidate
-      ? this.me.emailChangeCandidate
-      : this.me.emailAddress;
+    this.formData.emailAddress = this.me.emailChangeCandidate ?
+      this.me.emailChangeCandidate :
+      this.me.emailAddress;
 
     /** Example for a Cloud data API call */
     this.$emit("update:syncing", true);

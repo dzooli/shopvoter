@@ -24,7 +24,11 @@ module.exports = {
     },
   },
 
-  fn: async function ({ fullName, emailAddress, companyAdmin }) {
+  fn: async function ({
+    fullName,
+    emailAddress,
+    companyAdmin
+  }) {
     var newEmailAddress = emailAddress;
     if (newEmailAddress !== undefined) {
       newEmailAddress = newEmailAddress.toLowerCase();
@@ -69,9 +73,12 @@ module.exports = {
       )
     ) {
       let conflictingUser = await User.findOne({
-        or: [
-          { emailAddress: newEmailAddress },
-          { emailChangeCandidate: newEmailAddress },
+        or: [{
+            emailAddress: newEmailAddress
+          },
+          {
+            emailChangeCandidate: newEmailAddress
+          },
         ],
       });
       if (conflictingUser) {
@@ -94,26 +101,24 @@ module.exports = {
           emailChangeCandidate: "",
           emailProofToken: "",
           emailProofTokenExpiresAt: 0,
-          emailStatus:
-            this.req.me.emailStatus === "unconfirmed"
-              ? "unconfirmed"
-              : "confirmed",
+          emailStatus: this.req.me.emailStatus === "unconfirmed" ?
+            "unconfirmed" :
+            "confirmed",
         });
         break;
 
-      // Begin new email change, or modify a pending email change
+        // Begin new email change, or modify a pending email change
       case "begin-change":
       case "modify-pending-change":
         _.extend(valuesToSet, {
           emailChangeCandidate: newEmailAddress,
           emailProofToken: await sails.helpers.strings.random("url-friendly"),
-          emailProofTokenExpiresAt:
-            Date.now() + sails.config.custom.emailProofTokenTTL,
+          emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenTTL,
           emailStatus: "change-requested",
         });
         break;
 
-      // Cancel pending email change
+        // Cancel pending email change
       case "cancel-pending-change":
         _.extend(valuesToSet, {
           emailChangeCandidate: "",
@@ -123,11 +128,13 @@ module.exports = {
         });
         break;
 
-      // Otherwise, do nothing re: email
+        // Otherwise, do nothing re: email
     }
 
     // Save to the db
-    await User.updateOne({ id: this.req.me.id }).set(valuesToSet);
+    await User.updateOne({
+      id: this.req.me.id
+    }).set(valuesToSet);
 
     // If this is an immediate change, and billing features are enabled,
     // then also update the billing email for this user's linked customer entry
@@ -149,7 +156,9 @@ module.exports = {
         .timeout(5000)
         .retry();
       if (didNotAlreadyHaveCustomerId) {
-        await User.updateOne({ id: this.req.me.id }).set({
+        await User.updateOne({
+          id: this.req.me.id
+        }).set({
           stripeCustomerId,
         });
       }
