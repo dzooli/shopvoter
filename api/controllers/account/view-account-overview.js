@@ -20,7 +20,7 @@ module.exports = {
       stripePublishableKey: sails.config.custom.enableBillingFeatures ?
         sails.config.custom.stripePublishableKey :
         undefined,
-      companyName: company.name,
+      companyName: company ? company.name : "unknown",
     };
   },
 };

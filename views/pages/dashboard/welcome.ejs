@@ -16,7 +16,8 @@
   <!--  ╔═╗═╗ ╦╔═╗╔╦╗╔═╗╦  ╔═╗  ┌┬┐┌─┐┌┬┐┌─┐┬
         ║╣ ╔╩╦╝╠═╣║║║╠═╝║  ║╣   ││││ │ ││├─┤│
         ╚═╝╩ ╚═╩ ╩╩ ╩╩  ╩═╝╚═╝  ┴ ┴└─┘─┴┘┴ ┴┴─┘  -->
-  <modal class="example-modal" hide-close-button=1 v-if="modal==='example' && started==false" @close="closeExampleModal()" v-cloak>
+  <modal class="example-modal" hide-close-button=1 v-if="modal==='example' && started==false"
+    @close="closeExampleModal()" v-cloak>
     <div class="modal-header">
       <h2 class="modal-title">'Change Shop' or 'Start&Lock'</h2>
       <p class="modal-intro">Start voting or select your actual shop first.</p>
@@ -24,12 +25,21 @@
     </div>
     <div class="modal-body">
       <h5 class="pb-2 mb-3 border-bottom">Welcome back <%= me.fullName %>!</h5>
-      <p>If you just started your day, you can change the shop where you are. After starting the voting, you can't select another shop
+      <p v-if="me.company_id">If you just started your day, you can change the shop where you are. After starting the
+        voting, you can't
+        select another shop
         without device reboot and re-login.</p>
+      <p v-else>You have no Company yet therefore you are not able to collect votes. Please go to your profile page,
+        select your company and wait for shop assignments from your company admin.</p>
+
     </div>
     <div class="modal-footer flex-row-reverse justify-content-between">
-      <button type="button" data-dismiss="modal" class="btn btn-warning btn-lg" v-on:click.prevent="startApplication">Start And Lock</button>
-      <button type="button" data-dismiss="modal" class="btn btn-primary" @click="this.location='/dashboard/shopselect'">Change Settings</button>
+      <button type="button" data-dismiss="modal" class="btn btn-warning btn-lg" v-if="me.company_id!==null"
+        v-on:click.prevent="startApplication">Start And Lock</button>
+      <button type="button" data-dismiss="modal" class="btn btn-primary" v-if="me.company_id"
+        @click="this.location='/dashboard/shopselect'">Change Settings</button>
+      <button type="button" data-dismiss="modal" class="btn btn-primary mr-auto" v-else
+        @click="this.location='/account/profile'">Update Profile</button>
     </div>
   </modal>
 </div>

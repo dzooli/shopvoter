@@ -17,7 +17,9 @@ parasails.registerPage("shopselect", {
 
     // Form rules
     formRules: {
-      lastShopLogin: { required: true },
+      lastShopLogin: {
+        required: true
+      },
     },
 
     // Server error state for the form

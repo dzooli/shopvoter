@@ -1,16 +1,20 @@
 <div id="shopselect" v-cloak>
   <account-notification-banner roomName="session" text="<%= msg %>"></account-notification-banner>
+  <% if (company !== null) { %>
   <div class="container pt-5 pb-5">
 
     <h1>Select shop for <%= me.fullName %>@<%= company.name %></h1>
 
-    <ajax-form ref="form" action="selectShop" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedForm" @rejected="rejectedForm">
+    <ajax-form ref="form" action="selectShop" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+      :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedForm"
+      @rejected="rejectedForm">
       <div class="card-container">
         <% for (const shop of shops) { %>
         <div class="card" style="flex: auto; width: fit-content;">
           <div class="card-body">
 
-            <ajax-button type="submit" name="shop_id" value=<%- shop.shop.shop_id.id %> @click="click" class="btn btn-primary btn-lg" style="min-width: -webkit-fill-available;">
+            <ajax-button type="submit" name="shop_id" value=<%- shop.shop.shop_id.id %> @click="click"
+              class="btn btn-primary btn-lg" style="min-width: -webkit-fill-available;">
               <div class="card-title pt-2">
                 <%= shop.shop.shop_id.name %>
               </div>
@@ -28,5 +32,6 @@
       </div>
     </ajax-form>
   </div>
+  <% } %>
 </div>
 <%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

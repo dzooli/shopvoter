@@ -191,7 +191,7 @@ without necessarily having a billing card.`,
 
     company_id: {
       model: "company",
-      required: true,
+      required: false,
       description: "The user's owner company.",
     },
 
