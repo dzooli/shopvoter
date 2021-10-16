@@ -5,17 +5,24 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
-module.exports = {
+module.exports={
+  datastore: "tag",
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
+    id: {
+      type: 'string',
+      columnName: '_id'
+    },
     shop_id: {
-      model: "shop",
+      type: "number",
+      //model: "shop",
       required: true,
     },
     user_id: {
-      model: "user",
+      type: "number",
+      //model: "user",
       required: true,
     },
     tagValue: {
