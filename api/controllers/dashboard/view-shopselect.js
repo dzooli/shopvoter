@@ -31,14 +31,18 @@ module.exports = {
       id++;
     }
 
-    msg = "";
-    if (!this.req.me.lastShopLogin) {
-      msg = "You have no default shop selected. Select one first!";
-    }
-    if (!this.req.me.company_id)
+    msg="";
+    if (!this.req.me.isSuperAdmin)
     {
-      msg+=" You have no Company! Update your profile first!";
-      data=null;
+      if (!this.req.me.lastShopLogin)
+      {
+        msg="You have no default shop selected. Select one first!";
+      }
+      if (!this.req.me.company_id)
+      {
+        msg+=" You have no Company! Update your profile first!";
+        data=null;
+      }
     }
 
     return {

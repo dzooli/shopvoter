@@ -6,6 +6,7 @@ parasails.registerPage("welcome", {
     modal: "",
     started: false,
     pageLoadedAt: Date.now(),
+    adminview: false,
   },
 
   watch: {
@@ -20,6 +21,7 @@ parasails.registerPage("welcome", {
   beforeMount: function () {
     _.extend({}, window.SAILS_LOCALS);
   },
+  
   mounted: async function () {},
 
   //  ╦  ╦╦╦═╗╔╦╗╦ ╦╔═╗╦    ╔═╗╔═╗╔═╗╔═╗╔═╗
@@ -31,6 +33,10 @@ parasails.registerPage("welcome", {
     // `virtualPageSlug` is determined by the regular expression above, which
     // corresponds with `:unused?` in the server-side route for this page.
     switch (virtualPageSlug) {
+      case "admin":
+        console.log("Going to the admin dashboard...");
+        this.adminview = true;
+        break;
       case "hello":
         this.started = false;
         this.modal = "example";

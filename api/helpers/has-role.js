@@ -26,7 +26,7 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    var roles = await sails.helpers.getUserRoles(inputs.id);
+    var roles=await sails.helpers.getUserRoles(inputs.id);
     var hasRole = false;
     if (roles.roles) {
       roles.roles.forEach((element) => {

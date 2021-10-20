@@ -1,6 +1,13 @@
-<div id="welcome">
+<div id="welcome" v-cloak>
   <account-notification-banner></account-notification-banner>
-  <div class="container pt-5 pb-5">
+
+  <div class="container pb-5 pt-5" v-if="adminview">
+    <h1>Hello SuperAdmin!</h1>
+    <hr />
+    <p>Here are some global statistics about the usage of the application...</<p>
+  </div>
+
+  <div class="container pt-5 pb-5" v-else>
     <h1>Give us feedback!</h1>
     <hr />
     <p>For our company the user feedback is very important. We are keen to continously develop our

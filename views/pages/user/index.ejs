@@ -1,0 +1,21 @@
+<% var mymsg = '';
+if (locals.msg) {
+  mymsg=msg;
+}
+%>
+<div id="index" v-cloak>
+  <account-notification-banner roomName="session" text="<%= mymsg %>">
+  </account-notification-banner>
+  <div class="container pb-5 pt-5">
+    <h1>Users</h1>
+    <hr />
+    <div class="container-fluid pb-3">
+      <ajax-button class="btn-primary">New</ajax-button>
+    </div>
+    <div class="container">
+      <data-table :items=items :columns=columns />
+    </div>
+  </div>
+</div>
+
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

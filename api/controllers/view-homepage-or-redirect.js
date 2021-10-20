@@ -20,7 +20,14 @@ module.exports = {
   },
 
   fn: async function () {
-    if (this.req.me) {
+    if (this.req.me)
+    {
+      if (await sails.helpers.hasRole(this.req.me.id, "superuser"))
+      {
+        var user=await User.update({ id: this.req.me.id }).set({ isSuperAdmin: true });
+        sails.log.debug("Redirection to the '/welcome/admin' page due to supesuser role...");
+        throw { redirect: "/welcome/admin" };
+      }
       if (this.req.me.lastShopLogin == null) {
         throw { redirect: "/dashboard/shopselect" };
       }
