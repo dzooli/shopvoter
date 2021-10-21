@@ -35,9 +35,10 @@ module.exports = function jsonresponse(optionalData) {
     meta: {
       code: 200,
       count: 0,
+      total: 0,
       type: typeof optionalData,
     },
-    data: [],
+    data: {},
   };
 
   // If no data was provided, use res.sendStatus().
@@ -61,12 +62,13 @@ module.exports = function jsonresponse(optionalData) {
 
   // Send array or scalar response.
   responseData.meta.count = 1;
-  responseData.data = optionalData;
-  if (_.isArray(optionalData)) {
-    let itemCount = optionalData.length;
+  responseData.data = optionalData.items;
+  if (_.isObject(optionalData)) {
+    let itemCount = optionalData.items.length;
     responseData.meta.type = itemCount === 0 ? "error" : "array";
     responseData.meta.code = itemCount === 0 ? 404 : 200;
     responseData.meta.count = itemCount;
+    responseData.meta.total = optionalData.total;
   }
 
   return res.status(responseData.meta.code).send(responseData);

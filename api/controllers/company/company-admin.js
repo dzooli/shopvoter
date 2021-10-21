@@ -33,7 +33,9 @@ module.exports = {
       return element.role_id.name === "companyadmin";
     });
     for (const element of cadmins) {
-      var user = await User.findOne({ id: element.user_id })
+      var user = await User.findOne({
+          id: element.user_id
+        })
         .populate("company_id")
         .select(["fullName", "company_id"]);
       let newElement = _.extend(element, user, {
@@ -49,9 +51,13 @@ module.exports = {
       return this.res.jsonresponse(cadminusers);
     }
 
+    // Filter if id passed
     var result = cadminusers.filter((element) => {
       return element.id == inputs.id;
     });
-    return this.res.jsonresponse(result);
+    return this.res.jsonresponse({
+      total: (inputs.id) ? 1 : result.length,
+      items: result
+    });
   },
 };

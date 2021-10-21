@@ -10,11 +10,11 @@
 
 module.exports.policies = {
   "*": "is-logged-in",
+  "account/list": ["is-logged-in" ,"is-admin"],
 
   // Bypass the `is-logged-in` policy for:
   "entrance/*": true,
   "account/logout": true,
-  //"company/company-admin": true,
   "view-homepage-or-redirect": true,
   "view-faq": true,
   "view-contact": true,
