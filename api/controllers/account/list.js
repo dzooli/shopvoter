@@ -36,9 +36,9 @@ module.exports = {
 
 
   fn: async function (inputs) {
-    //    if (!this.req.wantsJSON) {
-    //      return;
-    //    }
+    if (!this.req.wantsJSON && process.env.NODE_ENV === 'production') {
+      return;
+    }
 
     var totalCount = await User.count();
     var users = await User.find(inputs.id ? {
