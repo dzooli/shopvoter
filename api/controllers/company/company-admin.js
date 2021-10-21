@@ -18,7 +18,7 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    if (!this.req.wantsJSON) {
+    if (!this.req.wantsJSON && process.env.NODE_ENV === 'production') {
       return;
     }
 
