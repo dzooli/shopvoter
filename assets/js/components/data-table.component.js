@@ -11,7 +11,7 @@ parasails.registerComponent("dataTable", {
   //  ╔═╗╦═╗╔═╗╔═╗╔═╗
   //  ╠═╝╠╦╝║ ║╠═╝╚═╗
   //  ╩  ╩╚═╚═╝╩  ╚═╝
-  props: ["items", "columns"],
+  props: ["items", "columns", "colnames", "total", "actions", "actionlinks"],
 
   //  ╦╔╗╔╦╔╦╗╦╔═╗╦    ╔═╗╔╦╗╔═╗╔╦╗╔═╗
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
@@ -19,7 +19,6 @@ parasails.registerComponent("dataTable", {
   data: function ()
   {
     const sortOrders={};
-    console.log(typeof this.columns);
     this.columns.forEach(function (key)
     {
       sortOrders[key]=1;
@@ -87,16 +86,20 @@ parasails.registerComponent("dataTable", {
           <th v-for="key in columns"
             @click="sortBy(key)"
             :class="{ active: sortKey == key }">
-            {{ capitalize(key) }}
+            {{ colnames[key.replace('.', '_')] }}
             <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
             </span>
           </th>
+          <th v-if="actions.length">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="entry in filteredItems">
           <td v-for="key in columns">
             {{ entry[key] }}
+          </td>
+          <td v-if="actions.length">
+            <a :href="action.link" v-for="action in actions" :title="action.name"><span :class="['pr-1', 'fa', action.icon]"></span></a>
           </td>
         </tr>
       </tbody>
