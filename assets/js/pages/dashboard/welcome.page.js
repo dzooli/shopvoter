@@ -34,7 +34,6 @@ parasails.registerPage("welcome", {
     // corresponds with `:unused?` in the server-side route for this page.
     switch (virtualPageSlug) {
       case "admin":
-        console.log("Going to the admin dashboard...");
         this.adminview = true;
         break;
       case "hello":
