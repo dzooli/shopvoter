@@ -11,17 +11,15 @@ parasails.registerComponent("dataTable", {
   //  ╔═╗╦═╗╔═╗╔═╗╔═╗
   //  ╠═╝╠╦╝║ ║╠═╝╚═╗
   //  ╩  ╩╚═╚═╝╩  ╚═╝
-  props: ["items", "columns", "colnames", "total", "actions", "actionlinks"],
+  props: ["items", "columns", "colnames", "total", "actions"],
 
   //  ╦╔╗╔╦╔╦╗╦╔═╗╦    ╔═╗╔╦╗╔═╗╔╦╗╔═╗
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
-  data: function ()
-  {
-    const sortOrders={};
-    this.columns.forEach(function (key)
-    {
-      sortOrders[key]=1;
+  data: function () {
+    const sortOrders = {};
+    this.columns.forEach(function (key) {
+      sortOrders[key] = 1;
     });
     return {
       syncing: false,
@@ -33,25 +31,24 @@ parasails.registerComponent("dataTable", {
   },
 
   computed: {
-    filteredItems()
-    {
+    filteredItems() {
       const sortKey = this.sortKey
       const filterKey = this.filterKey && this.filterKey.toLowerCase()
       const order = this.sortOrders[sortKey] || 1
       let items = this.items
       if (filterKey) {
-        items = items.filter(function(row) {
-          return Object.keys(row).some(function(key) {
+        items = items.filter(function (row) {
+          return Object.keys(row).some(function (key) {
             return (
               String(row[key])
-                .toLowerCase()
-                .indexOf(filterKey) > -1
+              .toLowerCase()
+              .indexOf(filterKey) > -1
             )
           })
         })
       }
       if (sortKey) {
-        items = items.slice().sort(function(a, b) {
+        items = items.slice().sort(function (a, b) {
           a = a[sortKey]
           b = b[sortKey]
           return (a === b ? 0 : a > b ? 1 : -1) * order
@@ -62,7 +59,7 @@ parasails.registerComponent("dataTable", {
 
     sortOrders() {
       const columnSortOrders = {}
-      this.columns.forEach(function(key) {
+      this.columns.forEach(function (key) {
         columnSortOrders[key] = 1
       })
       return columnSortOrders
@@ -99,7 +96,14 @@ parasails.registerComponent("dataTable", {
             {{ entry[key] }}
           </td>
           <td v-if="actions.length">
-            <a :href="action.link" v-for="action in actions" :title="action.name"><span :class="['pr-1', 'fa', action.icon]"></span></a>
+            <a href="#" v-for="action in actions"
+            :title="action.name">
+              <span :class="['pr-1', 'fa', action.icon]"
+                :data-key="entry.id"
+                :data-action="action.action"
+                :data-confirm="action.confirm"
+                v-on:click.prevent="_doAction"></span>
+            </a>
           </td>
         </tr>
       </tbody>
@@ -132,5 +136,10 @@ parasails.registerComponent("dataTable", {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
+
+    _doAction(e) {
+      console.log("action called: ", e.target.attributes["data-action"].value);
+      console.log("with id: ", e.target.attributes["data-key"].value);
+    }
   },
 });

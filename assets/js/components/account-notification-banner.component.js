@@ -59,14 +59,17 @@ parasails.registerComponent("account-notification-banner", {
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  mounted: async function () {
+  mounted: async function ()
+  {
     await Cloud.observeMySession();
     // Listen for updates to the user's session
-    Cloud.on("session", (msg) => {
+    Cloud.on("session", (msg) =>
+    {
       if (msg.notificationText) {
         this._changeType("warning");
         this.notificationText = msg.notificationText;
-      } else {
+      } else
+      {
         this.notificationText = "";
       }
     });

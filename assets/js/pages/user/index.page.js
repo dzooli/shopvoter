@@ -15,12 +15,14 @@ parasails.registerPage('index', {
     actions: [{
       name: "Edit",
       icon: "fa-pencil",
-      link: "#",
+      action: "updateProfile",
+      confirm: false,
     },
       {
         name: "Archive",
         icon: "fa-trash",
-        link: "#",
+        action: "archiveUser",
+        confirm: true,
     }  ],
   },
 
@@ -29,7 +31,6 @@ parasails.registerPage('index', {
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
   beforeMount: async function ()
   {
-    parasails.util.showFlash("danger", "Unauthorized!", false, this);
     var users=await Cloud.listUsers().tolerate((err) => {
       return;
     });
@@ -42,7 +43,7 @@ parasails.registerPage('index', {
   },
 
   mounted: async function () {
-    //…
+  
   },
 
   created: async function () {

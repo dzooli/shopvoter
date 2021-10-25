@@ -1,11 +1,5 @@
-<% var mymsg = '';
-if (locals.msg) {
-  mymsg=msg;
-}
-%>
 <div id="index" v-cloak>
-  <account-notification-banner roomName="session" text="<%= mymsg %>">
-  </account-notification-banner>
+  <account-notification-banner></account-notification-banner>
   <div class="container pb-5 pt-5">
     <h1>Users</h1>
     <hr />
