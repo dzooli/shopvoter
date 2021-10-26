@@ -44,12 +44,10 @@ parasails.registerPage("shopselect", {
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
       this.syncing = false;
-      parasails.util.showFlash("success", msg, true, this);
     },
 
     rejectedForm: async function (msg) {
       this.syncing = false;
-      parasails.util.showFlash("danger", msg.responseInfo.body, false, this);
     },
 
     click: function (ev) {

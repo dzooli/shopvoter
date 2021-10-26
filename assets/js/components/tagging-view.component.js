@@ -140,12 +140,10 @@ parasails.registerComponent("taggingView", {
 
     submittedForm: function (msg) {
       this.syncing = true;
-      //parasails.utils.showFlash("success", msg, true, this);
       this.startCounter();
     },
 
     rejectedForm: function (msg) {
-      parasails.utils.showFlash("danger", msg.responseInfo.body, false, this);
     },
 
     click: function (ev) {
