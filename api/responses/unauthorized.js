@@ -1,3 +1,5 @@
+const { is }=require("bluebird");
+
 /**
  * unauthorized.js
  *
@@ -20,7 +22,7 @@
  *     }
  * ```
  */
-module.exports = function unauthorized() {
+module.exports = async function unauthorized() {
 
   var req = this.req;
   var res = this.res;
@@ -29,15 +31,19 @@ module.exports = function unauthorized() {
 
   if (req.wantsJSON) {
     return res.sendStatus(401);
-  }
-  // Or log them out (if necessary) and then redirect to the login page.
-  else {
+  } else {
+    let isAdmin = await sails.helpers.hasRole(req.me.id, "superuser");
+    let isCAdmin = await sails.helpers.hasRole(req.me.id, "companyadmin");
+    let adminPostfix = (isAdmin || isCAdmin) ? 'admin/' : ''; 
+    req.addFlash("danger", "You are not authorized for this action!");
+    return res.redirect("/welcome/" + adminPostfix);
 
+    // Or log them out (if necessary) and then redirect to the login page.
+    /*
     if (req.session.userId) {
       delete req.session.userId;
     }
-
     return res.redirect('/login');
+    */
   }
-
 };
