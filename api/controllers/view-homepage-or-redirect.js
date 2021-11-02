@@ -22,10 +22,15 @@ module.exports = {
   fn: async function () {
     if (this.req.me)
     {
-      if (await sails.helpers.hasRole(this.req.me.id, "superuser")
-        || await sails.helpers.hasRole(this.req.me.id, "companyadmin"))
-      {
+      var isAdmin = await sails.helpers.hasRole(this.req.me.id, "superuser");
+      var isCAdmin = await sails.helpers.hasRole(this.req.me.id, "companyadmin");
+
+      if (isAdmin) {
         var user=await User.update({ id: this.req.me.id }).set({ isSuperAdmin: true });
+      }
+      
+      if ( isAdmin || isCAdmin )
+      {
         throw { redirect: "/welcome/admin" };
       }
 
