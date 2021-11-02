@@ -15,13 +15,15 @@ parasails.registerPage('index', {
     actions: [{
       name: "Edit",
       icon: "fa-pencil",
-      action: "updateProfile",
+      action: "/account",
+      method: "GET",
       confirm: false,
     },
       {
         name: "Archive",
         icon: "fa-trash",
         action: "archiveUser",
+        method: "DELETE",
         confirm: true,
     }  ],
   },
