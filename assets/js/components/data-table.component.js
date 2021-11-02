@@ -101,6 +101,7 @@ parasails.registerComponent("dataTable", {
               <span :class="['pr-1', 'fa', action.icon]"
                 :data-key="entry.id"
                 :data-action="action.action"
+                :data-method="action.method"
                 :data-confirm="action.confirm"
                 v-on:click.prevent="_doAction"></span>
             </a>
@@ -138,8 +139,22 @@ parasails.registerComponent("dataTable", {
     },
 
     _doAction(e) {
-      console.log("action called: ", e.target.attributes["data-action"].value);
-      console.log("with id: ", e.target.attributes["data-key"].value);
+      console.log(e.target.attributes["data-action"].value);
+
+      var actionName = e.target.attributes["data-action"].value;
+      var actionMethod = e.target.attributes["data-method"].value;
+      var itemId = e.target.attributes["data-key"].value;
+
+      console.log("action called: ", actionName);
+      console.log("with id: ", itemId);
+      console.log("and method: ", actionMethod);
+
+      // Redirect to a GET route
+      if (actionMethod == "GET") {
+        this.goto(actionName + "/?id=" + itemId);
+      }
+      // Or do other method
+      // TODO: implement other method calls
     }
   },
 });
