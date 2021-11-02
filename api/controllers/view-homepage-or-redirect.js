@@ -22,19 +22,17 @@ module.exports = {
   fn: async function () {
     if (this.req.me)
     {
-      if (await sails.helpers.hasRole(this.req.me.id, "superuser"))
+      if (await sails.helpers.hasRole(this.req.me.id, "superuser")
+        || await sails.helpers.hasRole(this.req.me.id, "companyadmin"))
       {
         var user=await User.update({ id: this.req.me.id }).set({ isSuperAdmin: true });
-        this.req.addFlash("success", "Successfully logged in as admin. :)");
-        this.req.addFlash("success", "Hello Admin!");
-        this.req.addFlash("danger", "DANGER!!! DANGER!!!");
         throw { redirect: "/welcome/admin" };
       }
+
       if (this.req.me.lastShopLogin == null) {
         throw { redirect: "/dashboard/shopselect" };
       }
-
-      this.req.addFlash("success", "Successfully logged in. :)");
+      
       throw { redirect: "/welcome/hello" };
     }
 
