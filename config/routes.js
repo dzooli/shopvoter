@@ -65,7 +65,7 @@ module.exports.routes = {
     action: "account/view-edit-profile"
   },
   "GET /admin/user/index": {
-    action: "user/view-index"
+    action: "account/view-list"
   },
 
   //  ╔╦╗╦╔═╗╔═╗  ╦═╗╔═╗╔╦╗╦╦═╗╔═╗╔═╗╔╦╗╔═╗   ┬   ╔╦╗╔═╗╦ ╦╔╗╔╦  ╔═╗╔═╗╔╦╗╔═╗
