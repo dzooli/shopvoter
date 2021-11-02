@@ -59,54 +59,55 @@
         <!-- LOGGED-IN NAVIGATION -->
 
         <% if(me) { %>
-        <% if(me.rolenames.indexOf('companyadmin') == -1 && me.rolenames.indexOf('superuser') == -1) { %>
-        <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/dashboard/shopselect">Shops</a>
-        <% } %>
-        <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/contact">Help</a>
-        <!-- Only in desktop nav -->
-        <!-- Admin menu only for admins -->
-        <% if(me.rolenames.indexOf("companyadmin") !== -1 || me.rolenames.indexOf("superuser") !== -1) { %>
-        <div class="hide-on-start nav-item dropdown d-none d-sm-block">
-          <a class="hide-on-start nav-link dropdown-toggle" id="header-admin-menu-link" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">Admin</a>
-          <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu"
-            aria-labelledby="header-account-menu-link">
-            <a class="dropdown-item" href="/admin/user/index">Users</a>
-            <a class="dropdown-item" href="/admin/shop/indexdd">Shops</a>
-            <% if(me.rolenames.indexOf("superuser") !== -1) { %>
-            <a class="dropdown-item" href="/admin/company/index">Companies</a>
+          <!-- Shop selector for normal users and company admins -->
+          <% if(me.rolenames.indexOf('superuser') == -1) { %>
+            <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/dashboard/shopselect">My Shop</a>
+          <% } %>
+          <a class="hide-on-start nav-item nav-link ml-2 ml-md-0 mr-2 mr-md-0" href="/contact">Help</a>
+          <!-- Only in desktop nav -->
+          <!-- Admin menu only for admins -->
+          <% if(me.rolenames.indexOf("companyadmin") !== -1 || me.rolenames.indexOf("superuser") !== -1) { %>
+            <div class="hide-on-start nav-item dropdown d-none d-sm-block">
+              <a class="hide-on-start nav-link dropdown-toggle" id="header-admin-menu-link" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">Admin</a>
+              <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu"
+                aria-labelledby="header-account-menu-link">
+                <a class="dropdown-item" href="/admin/user/index">Users</a>
+                <a class="dropdown-item" href="/admin/shop/index">Shops</a>
+                <% if(me.rolenames.indexOf("superuser") !== -1) { %>
+                  <a class="dropdown-item" href="/admin/company/index">Companies</a>
+                <% } %>
+              </div>
+            </div>
             <% } %>
-          </div>
-        </div>
-        <% } %>
-        <div class="hide-on-start nav-item dropdown d-none d-sm-block">
-          <a class="hide-on-start nav-link dropdown-toggle" id="header-account-menu-link" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">Account</a>
-          <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu pb-0"
-            aria-labelledby="header-account-menu-link">
-            <a class="dropdown-item" href="/account">Settings</a>
-            <a class="dropdown-item" href="/logout">Sign out</a>
-            <div class="badge-warning">
-              <div class="badge"><%- me.fullName %></div>
-              <div class="row ml-2 small" style="text-transform: capitalize; white-space: pre-wrap;"><%- roleString %>
+          <div class="hide-on-start nav-item dropdown d-none d-sm-block">
+            <a class="hide-on-start nav-link dropdown-toggle" id="header-account-menu-link" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">Account</a>
+            <div style="left: auto; right: 0;" class="hide-on-start dropdown-menu pb-0"
+              aria-labelledby="header-account-menu-link">
+              <a class="dropdown-item" href="/account">Settings</a>
+              <a class="dropdown-item" href="/logout">Sign out</a>
+              <div class="badge-warning">
+                <div class="badge"><%- me.fullName %></div>
+                <div class="row ml-2 small" style="text-transform: capitalize; white-space: pre-wrap;"><%- roleString %>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Only in mobile nav -->
-        <a class="hide-on-start nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/account">Account Settings</a>
-        <a class="hide-on-start nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/logout">Sign out</a>
+          <!-- Only in mobile nav -->
+          <a class="hide-on-start nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/account">Account Settings</a>
+          <a class="hide-on-start nav-item nav-link ml-2 mr-2 d-block d-sm-none" href="/logout">Sign out</a>
 
         <% } else { %>
         <!-- LOGGED-OUT NAVIGATION -->
-        <a class="nav-item nav-link ml-2 ml-md-0 mr-2" href="/faq">FAQ</a>
-        <a class="nav-item nav-link ml-2 ml-md-0 mr-2" href="/login">Log in</a>
-        <!-- Only in desktop nav -->
-        <div class="form-inline d-none ml-2 d-md-block">
-          <a class="btn btn-outline-info" href="/signup">Sign up</a>
-        </div>
-        <!-- Only in mobile nav -->
-        <a class="nav-item nav-link text-info ml-2 d-block d-md-none" href="/signup">Sign up</a>
+          <a class="nav-item nav-link ml-2 ml-md-0 mr-2" href="/faq">FAQ</a>
+          <a class="nav-item nav-link ml-2 ml-md-0 mr-2" href="/login">Log in</a>
+          <!-- Only in desktop nav -->
+          <div class="form-inline d-none ml-2 d-md-block">
+            <a class="btn btn-outline-info" href="/signup">Sign up</a>
+          </div>
+          <!-- Only in mobile nav -->
+          <a class="nav-item nav-link text-info ml-2 d-block d-md-none" href="/signup">Sign up</a>
         <% } %>
       </div>
     </header>
