@@ -64,6 +64,7 @@ module.exports = function jsonresponse(optionalData) {
   responseData.meta.count = 1;
   responseData.data = optionalData.items;
   if (_.isObject(optionalData)) {
+    sails.log.debug(optionalData);
     let itemCount = optionalData.items.length;
     responseData.meta.type = itemCount === 0 ? "error" : "array";
     responseData.meta.code = itemCount === 0 ? 404 : 200;

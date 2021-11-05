@@ -13,8 +13,8 @@ parasails.registerPage('index', {
       companyName: "Company",
     },
     actions: [{
-      name: "Edit",
-      icon: "fa-pencil",
+      name: "Details",
+      icon: "fa-eye",
       action: "/account",
       method: "GET",
       confirm: false,

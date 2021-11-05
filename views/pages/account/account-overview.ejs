@@ -1,7 +1,7 @@
 <div id="account-overview" v-cloak>
   <account-notification-banner></account-notification-banner>
   <div class="container pt-5 pb-5">
-    <h1>My account</h1>
+    <h1>Account details</h1>
     <hr />
     <div class="row mb-3">
       <div class="col-sm-6">
@@ -9,13 +9,13 @@
       </div>
       <div class="col-sm-6">
         <span class="float-sm-right">
-          <a style="width: 150px" class="btn btn-sm btn-outline-info" href="/account/profile">Edit profile</a>
+          <a style="width: 150px" class="btn btn-sm btn-outline-info" :href="editref">Edit profile</a>
         </span>
       </div>
     </div>
     <div class="row">
       <div class="col-3">Name:</div>
-      <div class="col"><strong>{{me.fullName}}</strong></div>
+      <div class="col"><strong>{{user.fullName}}</strong></div>
     </div>
     <div class="row">
       <div class="col-3">Company:</div>
@@ -26,8 +26,8 @@
       <div class="col-3">Email:</div>
       <div class="col">
         <strong
-          :class="[me.emailStatus === 'unconfirmed' || me.emailStatus === 'change-requested' ? 'text-muted' : '']">{{me.emailChangeCandidate ? me.emailChangeCandidate : me.emailAddress}}</strong>
-        <span v-if="me.emailStatus === 'unconfirmed' || me.emailStatus === 'change-requested'"
+          :class="[user.emailStatus === 'unconfirmed' || user.emailStatus === 'change-requested' ? 'text-muted' : '']">{{user.emailChangeCandidate ? user.emailChangeCandidate : user.emailAddress}}</strong>
+        <span v-if="user.emailStatus === 'unconfirmed' || user.emailStatus === 'change-requested'"
           class="badge badge-pill badge-warning">Unverified</span>
       </div>
     </div>
@@ -54,20 +54,20 @@
       <div class="col-sm-6">
         <span class="float-sm-right">
           <button style="width: 150px;" class="btn btn-sm btn-outline-info"
-            @click="clickUpdateBillingCardButton()">{{ me.hasBillingCard ? 'Change card' : '+ Add card' }}</button>
+            @click="clickUpdateBillingCardButton()">{{ user.hasBillingCard ? 'Change card' : '+ Add card' }}</button>
         </span>
       </div>
     </div>
-    <div v-if="isBillingEnabled && me.hasBillingCard">
+    <div v-if="isBillingEnabled && user.hasBillingCard">
       <div class="row">
         <div class="col-3">Credit card:</div>
-        <div class="col">{{me.billingCardBrand}} ending in <strong>{{me.billingCardLast4}}</strong> <a
+        <div class="col">{{user.billingCardBrand}} ending in <strong>{{user.billingCardLast4}}</strong> <a
             style="text-decoration: underline; cursor: pointer;" class="ml-2" purpose="remove-button"
             @click="clickRemoveCardButton()">Remove</a></div>
       </div>
       <div class="row">
         <div class="col-3">Expiration:</div>
-        <div class="col">{{me.billingCardExpMonth}}/{{me.billingCardExpYear}}</div>
+        <div class="col">{{user.billingCardExpMonth}}/{{user.billingCardExpYear}}</div>
       </div>
     </div>
     <div class="alert alert-danger" v-else-if="isBillingEnabled && cloudError">
@@ -84,7 +84,7 @@
   <% /* Modify Card Info Modal */ %>
   <modal v-if="modal === 'update-billing-card'" @close="closeModal()" v-cloak>
     <div class="modal-header">
-      <h2 class="modal-title">{{me.hasBillingCard? 'Edit' : 'Add' }} card</h2>
+      <h2 class="modal-title">{{user.hasBillingCard? 'Edit' : 'Add' }} card</h2>
     </div>
     <ajax-form :handle-submitting="handleSubmittingUpdateBillingCard" :syncing.sync="syncing"
       :cloud-error.sync="cloudError" :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors"
@@ -115,8 +115,8 @@
       :form-data="formData" :form-rules="formRules" :form-errors.sync="formErrors"
       @submitted="submittedRemoveCardForm()">
       <div class="modal-body text-center">
-        <p>Are you sure you want to remove your {{me.billingCardBrand}} ending in
-          <strong>{{me.billingCardLast4}}</strong>?</p>
+        <p>Are you sure you want to remove your {{user.billingCardBrand}} ending in
+          <strong>{{user.billingCardLast4}}</strong>?</p>
         <p class="text-muted mb-0">This may restrict your access to paid features.</p>
         <cloud-error v-if="cloudError"></cloud-error>
       </div>

@@ -4,6 +4,11 @@ module.exports = {
   description: "Update the profile for the logged-in user.",
 
   inputs: {
+    id: {
+      type: "number",
+      required: true,
+    },
+
     fullName: {
       type: "string",
     },
@@ -25,6 +30,7 @@ module.exports = {
   },
 
   fn: async function ({
+    id,
     fullName,
     emailAddress,
     companyAdmin
@@ -34,31 +40,33 @@ module.exports = {
       newEmailAddress = newEmailAddress.toLowerCase();
     }
 
+    var operatingUser = await User.findOne({id: id});
+
     // Determine if this request wants to change the current user's email address,
     // revert her pending email address change, modify her pending email address
     // change, or if the email address won't be affected at all.
     var desiredEmailEffect; // ('change-immediately', 'begin-change', 'cancel-pending-change', 'modify-pending-change', or '')
     if (
       newEmailAddress === undefined ||
-      (this.req.me.emailStatus !== "change-requested" &&
-        newEmailAddress === this.req.me.emailAddress) ||
-      (this.req.me.emailStatus === "change-requested" &&
-        newEmailAddress === this.req.me.emailChangeCandidate)
+      (operatingUser.emailStatus !== "change-requested" &&
+        newEmailAddress === operatingUser.emailAddress) ||
+      (operatingUser.emailStatus === "change-requested" &&
+        newEmailAddress === operatingUser.emailChangeCandidate)
     ) {
       desiredEmailEffect = "";
     } else if (
-      this.req.me.emailStatus === "change-requested" &&
-      newEmailAddress === this.req.me.emailAddress
+      operatingUser.emailStatus === "change-requested" &&
+      newEmailAddress === operatingUser.emailAddress
     ) {
       desiredEmailEffect = "cancel-pending-change";
     } else if (
-      this.req.me.emailStatus === "change-requested" &&
-      newEmailAddress !== this.req.me.emailAddress
+      operatingUser.emailStatus === "change-requested" &&
+      newEmailAddress !== operatingUser.emailAddress
     ) {
       desiredEmailEffect = "modify-pending-change";
     } else if (
       !sails.config.custom.verifyEmailAddresses ||
-      this.req.me.emailStatus === "unconfirmed"
+      operatingUser.emailStatus === "unconfirmed"
     ) {
       desiredEmailEffect = "change-immediately";
     } else {
@@ -81,7 +89,8 @@ module.exports = {
           },
         ],
       });
-      if (conflictingUser) {
+      if (conflictingUser && conflictingUser.id !== id) {
+        sails.log.debug(conflictingUser, id, emailAddress);
         throw "emailAlreadyInUse";
       }
     }
@@ -93,15 +102,16 @@ module.exports = {
       company_id: companyAdmin,
     };
 
+    sails.log.debug("Email change effect: ", desiredEmailEffect);
     switch (desiredEmailEffect) {
       // Change now
       case "change-immediately":
         _.extend(valuesToSet, {
           emailAddress: newEmailAddress,
           emailChangeCandidate: "",
-          emailProofToken: "",
-          emailProofTokenExpiresAt: 0,
-          emailStatus: this.req.me.emailStatus === "unconfirmed" ?
+          emailProofToken: await sails.helpers.strings.random("url-friendly"),
+          emailProofTokenExpiresAt: null,
+          emailStatus: operatingUser.emailStatus === "unconfirmed" ?
             "unconfirmed" :
             "confirmed",
         });
@@ -133,7 +143,7 @@ module.exports = {
 
     // Save to the db
     await User.updateOne({
-      id: this.req.me.id
+      id: operatingUser.id
     }).set(valuesToSet);
 
     // If this is an immediate change, and billing features are enabled,
@@ -147,17 +157,17 @@ module.exports = {
       desiredEmailEffect === "change-immediately" &&
       sails.config.custom.enableBillingFeatures
     ) {
-      let didNotAlreadyHaveCustomerId = !this.req.me.stripeCustomerId;
+      let didNotAlreadyHaveCustomerId = !operatingUser.stripeCustomerId;
       let stripeCustomerId = await sails.helpers.stripe.saveBillingInfo
         .with({
-          stripeCustomerId: this.req.me.stripeCustomerId,
+          stripeCustomerId: operatingUser.stripeCustomerId,
           emailAddress: newEmailAddress,
         })
         .timeout(5000)
         .retry();
       if (didNotAlreadyHaveCustomerId) {
         await User.updateOne({
-          id: this.req.me.id
+          id: operatingUser.id
         }).set({
           stripeCustomerId,
         });
@@ -175,7 +185,7 @@ module.exports = {
         subject: "Your account has been updated",
         template: "email-verify-new-email",
         templateData: {
-          fullName: fullName || this.req.me.fullName,
+          fullName: fullName || operatingUser.fullName,
           token: valuesToSet.emailProofToken,
         },
       });

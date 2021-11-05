@@ -47,14 +47,21 @@ module.exports = {
       cadminusers.push(newElement);
     }
 
+    sails.log.debug("Company admins: ");
+    sails.log.debug(result);
     if (typeof inputs.id === "undefined") {
-      return this.res.jsonresponse(cadminusers);
+      return this.res.jsonresponse({
+        total: cadminusers.length, 
+        items: cadminusers
+      });
     }
 
     // Filter if id passed
     var result = cadminusers.filter((element) => {
       return element.id == inputs.id;
     });
+    sails.log.debug("Company admins: ");
+    sails.log.debug(result);
     return this.res.jsonresponse({
       total: (inputs.id) ? 1 : result.length,
       items: result

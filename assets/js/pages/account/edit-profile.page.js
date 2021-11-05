@@ -22,6 +22,9 @@ parasails.registerPage("edit-profile", {
 
     // Form rules
     formRules: {
+      id: {
+        required: true,
+      },
       fullName: {
         required: true
       },
@@ -42,23 +45,25 @@ parasails.registerPage("edit-profile", {
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
   beforeMount: async function () {
-    // Set the form data.
-    this.formData.companyAdmin = this.me.company_id;
-    this.formData.fullName = this.me.fullName;
-    this.formData.emailAddress = this.me.emailChangeCandidate ?
-      this.me.emailChangeCandidate :
-      this.me.emailAddress;
+    _.extend(this, window.SAILS_LOCALS);
 
-    /** Example for a Cloud data API call */
+    // Set the form data.
+    this.formData.id = this.user.id;
+    this.formData.companyAdmin = this.user.company_id;
+    this.formData.fullName = this.user.fullName;
+    this.formData.emailAddress = this.user.emailChangeCandidate ?
+      this.user.emailChangeCandidate :
+      this.user.emailAddress;
+
     this.$emit("update:syncing", true);
     this.syncing = true;
     var admins = await Cloud[this.caEndpoint].with({}).tolerate((err) => {
       this.$emit("update:cloudError", "failedWithCloudExit");
+      console.log("Failed to get the company admin list!");
     });
     this.companyAdmins = admins ? admins.data : undefined;
     this.$emit("update:syncing", false);
     this.syncing = false;
-    /** End of example Cloud usage */
   },
 
   mounted: async function () {
@@ -74,7 +79,7 @@ parasails.registerPage("edit-profile", {
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
       this.syncing = true;
-      window.location = "/account";
+      window.location = "/account?id=" + this.user.id;
     },
   },
 });

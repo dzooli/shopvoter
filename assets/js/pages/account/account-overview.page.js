@@ -3,6 +3,7 @@ parasails.registerPage('account-overview', {
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
+    editref: '',
     isBillingEnabled: false,
 
     hasBillingCard: false,
@@ -39,7 +40,9 @@ parasails.registerPage('account-overview', {
       this.me.billingCardExpMonth &&
       this.me.billingCardExpYear
     );
+    this.editref = "/account/profile?id=" + this.user.id;
   },
+
   mounted: async function() {
     //…
   },
