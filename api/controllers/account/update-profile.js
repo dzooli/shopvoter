@@ -1,7 +1,7 @@
 module.exports = {
   friendlyName: "Update profile",
 
-  description: "Update the profile for the logged-in user.",
+  description: "Update the profile for the specified user.",
 
   inputs: {
     id: {
