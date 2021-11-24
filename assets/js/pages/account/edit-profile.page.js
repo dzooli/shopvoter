@@ -35,6 +35,9 @@ parasails.registerPage("edit-profile", {
       companyAdmin: {
         required: true
       },
+      userRoles: {
+        required: true
+      },
     },
 
     // Server error state for the form
@@ -54,6 +57,10 @@ parasails.registerPage("edit-profile", {
     this.formData.emailAddress = this.user.emailChangeCandidate ?
       this.user.emailChangeCandidate :
       this.user.emailAddress;
+    this.formData.userRoles = [];
+    for (const role of this.rolesAssigned) {
+      this.formData.userRoles.push(role.id);
+    }
 
     this.$emit("update:syncing", true);
     this.syncing = true;

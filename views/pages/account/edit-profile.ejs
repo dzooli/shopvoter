@@ -36,6 +36,17 @@
         </select>
         <div class="invalid-feedback" v-if="formErrors.companyAdmin">You really have to select your manager.</div>
       </div>
+      <div class="form-group">
+        <label for="user-roles">Roles</label>
+        <select class="selectpicker" id="roles" type="text"
+          :class="[formErrors.userRoles ? 'is-invalid' : '']" v-model="formData.userRoles"
+          placeholder="Assigned roles" multiple>
+          <option v-for="role in allRoles" v-bind:value="role.id">
+            {{ role.name }}
+          </option>
+          </select>
+          <div class="invalid-feedback" v-if="formErrors.userRoles">At least one role must be selected.</div>
+      </div>
       <div class="row">
         <div class="col-sm-6">
           <cloud-error v-if="cloudError === 'emailAlreadyInUse'">There is already an account using that email address.

@@ -28,8 +28,16 @@ module.exports={
 
   fn: async function (inputs)
   {
-
     var id=this.req.me.id;
+
+    var currentUser = await User.findOne({id: id});
+    var currentUserRoles = await Userrole.find({user_id: id}).populate("role_id");
+    var currentUserRoleIds = [];
+    currentUserRoles.forEach(element => {
+      currentUserRoleIds.push(element.role_id.level);
+    });
+    var currentUserHighestRole = Math.max(...currentUserRoleIds);
+    
     // Resopnd with $me profile
     if (typeof inputs.id!==undefined&&!_.isUndefined(inputs.id))
     {
@@ -48,7 +56,7 @@ module.exports={
     {
       throw "notfound";
     }
-
+    
     // Lowest role level is the role with max(level)
     var allRoles=await Role.find({ sort: 'level DESC' }).select(["level"]);
     var maxLevel=100;
@@ -58,6 +66,7 @@ module.exports={
     }
 
     // Prepare the assigned roles return value
+    var allRoles = [];
     var assignedRoles=[];
     var assignedRoleLevels=[];
     var assignedRoleIds=[];
@@ -70,10 +79,16 @@ module.exports={
     ]);
     userRoles.forEach(function (element, idx)
     {
+      let capName = _.capitalize(element.role_id.name);
       assignedRoles.push({
         id: element.role_id.id,
-        name: element.role_id.name,
+        name: capName,
         level: element.role_id.level
+      });
+      allRoles.push({
+        id: element.role_id.id,
+        name: capName,
+        level: element.role_id.level,
       });
       assignedRoleLevels.push(element.role_id.level);
       assignedRoleIds.push({id: element.role_id.id});
@@ -81,13 +96,8 @@ module.exports={
 
     // Find the available roles with greater or equal level as the highest (lowest level = highest priority) assigned
     var availableRoles=[];
-    var userLevel=maxLevel;
-    if (assignedRoles)
-    {
-      userLevel=Math.min(...assignedRoleLevels);
-    }
     var unassignedRoles=[];
-    availableRoles=await Role.find({ level: { '>=': userLevel } }).select([
+    availableRoles=await Role.find({ level: { '>=': currentUserHighestRole } }).select([
       "id",
       "name",
       "level"
@@ -97,9 +107,15 @@ module.exports={
       // Do not add the already assigned roles to the unassigned list
       if (!_.find(assignedRoleIds, { id: element.id }))
       {
+        let capName = _.capitalize(element.name);
         unassignedRoles.push({
           id: element.id,
-          name: element.name,
+          name: capName,
+          level: element.level,
+        });
+        allRoles.push({
+          id: element.id,
+          name: capName,
           level: element.level,
         });
       }
@@ -109,7 +125,8 @@ module.exports={
     return {
       user: user,
       rolesAvailable: unassignedRoles,
-      rolesAssigned: assignedRoles
+      rolesAssigned: assignedRoles,
+      allRoles: allRoles,
     };
 
   }
