@@ -11,10 +11,12 @@ services:
       options:
         max-size: "200k"
         max-file: "10"
-    ports: # same as -p with docker cli
+    ports:
+      # same as -p with docker cli
       - "127.0.0.1:1337:1337"
       - "127.0.0.1:9229:9229"
-    volumes: # same as -v with docker cli
+    volumes:
+      # same as -v with docker cli
       - .:/app
     env_file:
       - ./sails.env
